@@ -143,16 +143,7 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     print(f"Error fetching Autobuses lines: {e}", flush=True)
 
                 merged_lines = bondicom_lines + autobuses_lines
-                # Filter out Linea 277 (doesn't belong to Lomas de Zamora)
-                filtered_lines = []
-                for l in merged_lines:
-                    line_ds = str(l.get("ds", ""))
-                    line_id = l.get("id")
-                    if "277" in line_ds or line_id == 1054:
-                        continue
-                    filtered_lines.append(l)
-
-                self.send_json_response(200, filtered_lines)
+                self.send_json_response(200, merged_lines)
             except Exception as e:
                 self.send_error_response(500, f"Error listing lines: {str(e)}")
             return
