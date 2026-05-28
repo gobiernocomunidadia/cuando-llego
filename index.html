@@ -1687,7 +1687,16 @@
                     // Si coincide con el recorrido actualmente seleccionado, actualizar currentRoutePoints
                     const expectedFile = getExpectedRouteFile();
                     if (expectedFile === fileName) {
-                        currentRoutePoints = sidebarRoutePoints[fileName] || [];
+                        let points = sidebarRoutePoints[fileName] || [];
+                        const selectRec = document.getElementById('select-colectivo-recorrido');
+                        if (selectRec && selectRec.selectedIndex !== -1) {
+                            const recId = selectRec.value;
+                            const recText = selectRec.options[selectRec.selectedIndex].textContent.toUpperCase();
+                            if (fileName === "277 - Ida y Vuelta.geojson" && (recId.includes("V277") || recText.includes("OLIVER") || recText.includes("VUELTA"))) {
+                                points = [...points].reverse();
+                            }
+                        }
+                        currentRoutePoints = points;
                     }
                 } else {
                     console.error("Recorrido no encontrado en datos embebidos:", fileName);
