@@ -1,0 +1,2803 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLECTIVOS DE LA COMUNIDAD</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-main: #19567C;
+            --blanco: #FFFFFF;
+            --acento: #4AB5E0;
+            --magenta: #D34872;
+            --azul-inst: #19567C;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--blanco);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            z-index: 10;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F3F6F9;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E6EDF3;
+            border-radius: 4px;
+        }
+
+        /* Ajustes para la ventana de Info de Google Maps */
+        .gm-style-iw.gm-style-iw-c {
+            border-radius: 8px !important;
+            padding: 12px !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+
+        .gm-style-iw-d {
+            overflow: hidden !important;
+        }
+
+        button.gm-ui-hover-effect {
+            display: none !important;
+        }
+
+        /* Ocultamos el botón nativo de Google */
+
+        /* Estilos del Botón de Cierre Personalizado */
+        .custom-close-btn {
+            position: absolute;
+            right: -4px;
+            top: -6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #94A3B8;
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            z-index: 50;
+        }
+
+        .custom-close-btn:hover {
+            background-color: #F1F5F9;
+            color: var(--bg-main);
+        }
+
+        .incident-close:hover {
+            color: var(--magenta);
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+
+    <header class="bg-[var(--bg-main)] shadow-lg border-b-4 border-[var(--acento)] z-20 py-6 px-4 shrink-0">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-center gap-4">
+            <div
+                class="bg-white text-[var(--bg-main)] rounded-full h-14 w-14 flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-bus text-2xl"></i>
+            </div>
+            <div class="flex flex-col">
+                <h1 class="text-3xl font-extrabold tracking-tight uppercase leading-none">COLECTIVOS DE LA COMUNIDAD
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-[1600px] mx-auto py-8 px-4 flex-1 flex flex-col lg:flex-row gap-6">
+
+        <aside
+            class="w-full lg:w-80 bg-white rounded-xl shadow-md border border-[#E6EDF3] flex flex-col max-h-[calc(100vh-200px)] overflow-hidden shrink-0 z-20">
+            <div class="p-4 border-b bg-[#F3F6F9] flex items-center gap-2">
+                <i data-lucide="filter" class="text-[#0B5F8D] h-5 w-5"></i>
+                <h3 class="font-bold text-[#0F172A] uppercase text-sm">Filtros Operativos</h3>
+            </div>
+
+            <div class="p-5 overflow-y-auto custom-scrollbar flex-1 space-y-6">
+
+                <!-- Recorridos Colectivos de la Comunidad -->
+                <div class="bg-[#19567C]/10 p-3 rounded-lg border border-[#19567C]/30">
+                    <h4 class="text-xs font-extrabold text-[#19567C] uppercase mb-3 flex items-center gap-2">
+                        <i data-lucide="map" class="h-4 w-4 text-[#19567C]"></i> Recorridos Colectivos de la Comunidad
+                    </h4>
+
+                    <div class="space-y-2.5 max-h-60 overflow-y-auto custom-scrollbar pr-1">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 1 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 1 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 1 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 1 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 2 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 2 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 2 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 2 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 4 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 4 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 4 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 4 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 5 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 5 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 5 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 5 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 6 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 6 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 6 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 6 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 7:8 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 7/8 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 266 - 7:8 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">266 Ramal 7/8 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 564 - 3 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">564 Ramal 3 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 564 - 3 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">564 Ramal 3 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 564 - 9 I.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">564 Ramal 9 I</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="EVG 564 - 9 V.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">564 Ramal 9 V</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 553 - I a Lomas.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">553 Ramal I (La Noria a Lomas)</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 553 - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">553 Ramal V (Lomas a La Noria)</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 552A - I a Universidad.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">552A - Banfield al Cruce</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 552A - V a Banfield.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">552A - Cruce a Banfield</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 552B - I a Banfield.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">552B - Restelli a Banfield</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 552B - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">552B - Banfield a Restelli</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 552C - I a Ruta IV.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">552C - La Noria a Ruta 4</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 552C - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">552C - Ruta 4 a La Noria</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 550L - I a Lomas.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">550L - La Noria a Lomas</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 550L - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">550L - Lomas a La Noria</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 550U - I a Lomas.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">550U - La Noria a Lomas</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 550U - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">550U - Lomas a La Noria</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 551A - I a Lomas.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">551A - El Penal a Lomas</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 551A - V al Penal.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">551A - Lomas al Penal</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 551C - I a Ruta 4.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">551C - La Noria a Ruta 4</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 551C - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">551C - Ruta 4 a La Noria</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 548B - I a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">548B - I a La Noria</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 548B - V al Penal.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">548B - V al Penal</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 540 - I a Lomas.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">540 - I a Lomas</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 540 - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">540 - V a La Noria</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 542 - I a Lomas.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">542 - I a Lomas</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="cb-route w-4 h-4 accent-[#19567C]"
+                                data-file="Autobuses 542 - V a La Noria.geojson">
+                            <span class="text-xs text-[#0F172A] font-bold">542 - V a La Noria</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Tránsito en Tiempo Real -->
+                <div class="bg-[#19567C]/10 p-3 rounded-lg border border-[#19567C]/30">
+                    <h4 class="text-xs font-extrabold text-[#19567C] uppercase mb-3 flex items-center gap-2">
+                        <i data-lucide="car" class="h-4 w-4"></i> Tránsito Google
+                    </h4>
+
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" id="cb-trafico" class="w-4 h-4 accent-[#19567C]">
+                            <span class="text-sm text-[#0F172A] font-bold">Ver Tránsito en Vivo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sección Colapsable: Próximo Colectivo -->
+                <div class="bg-[#19567C]/10 p-3 rounded-lg border border-[#19567C]/30">
+                    <h4 class="text-xs font-extrabold text-[#19567C] uppercase mb-3 flex items-center justify-between cursor-pointer"
+                        onclick="toggleSeccionColectivo()">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="bus-front" class="h-4 w-4 text-[#19567C]"></i> Próximo Colectivo
+                        </span>
+                        <i id="arrow-colectivo" data-lucide="chevron-down"
+                            class="h-4 w-4 transition-transform duration-200"></i>
+                    </h4>
+                    <div id="content-colectivo" class="space-y-3 hidden">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-bold text-gray-700">Línea:</label>
+                            <select id="select-colectivo-linea"
+                                class="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:border-[#19567C] font-semibold text-[#0F172A] cursor-pointer">
+                                <option value="">Seleccione una línea</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-bold text-gray-700">Ramal / Recorrido:</label>
+                            <select id="select-colectivo-recorrido" disabled
+                                class="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:border-[#19567C] font-semibold text-[#0F172A] cursor-pointer disabled:opacity-50">
+                                <option value="">Seleccione un ramal</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-bold text-gray-700">Parada:</label>
+                            <select id="select-colectivo-parada" disabled
+                                class="w-full text-xs p-2 border border-gray-300 rounded focus:outline-none focus:border-[#19567C] font-semibold text-[#0F172A] cursor-pointer disabled:opacity-50">
+                                <option value="">Seleccione una parada</option>
+                            </select>
+                        </div>
+                        <div id="status-colectivo" class="text-xs text-gray-500 hidden mt-1 flex items-center gap-2">
+                            <i class="fa-solid fa-spinner fa-spin text-[#19567C]"></i>
+                            <span>Buscando colectivos cercanos...</span>
+                        </div>
+                        <div id="predictions-list" class="space-y-2 mt-3 hidden border-t border-gray-200 pt-3">
+                            <!-- Aquí se inyectarán los arribos en tiempo real -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <div
+            class="flex-1 bg-white p-2 rounded-xl shadow-lg border border-[#E6EDF3] flex flex-col min-h-[500px] relative z-10">
+            <div id="map"></div>
+        </div>
+
+    </main>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2MHti5Cy4IDKPc3Iu0ypNQg_BgsjcMoQ&callback=initMap"
+        defer></script>
+
+    <script>
+        const EMBEDDED_GEOJSON = {
+            'Autobuses 542 - I a Lomas': {"type": "FeatureCollection", "name": "Autobuses 542 - I a Lomas", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "542 - La Noria a Lomas", "nombre": "542 - La Noria a Lomas"}, "geometry": {"type": "LineString", "coordinates": [[-58.454276, -34.707539, 0.0], [-58.454112, -34.707641, 0.0], [-58.454191, -34.70776, 0.0], [-58.454311, -34.707826, 0.0], [-58.45448, -34.707863, 0.0], [-58.4554, -34.70757, 0.0], [-58.456693, -34.707054, 0.0], [-58.457091, -34.706951, 0.0], [-58.457375, -34.70703, 0.0], [-58.457709, -34.707401, 0.0], [-58.457841, -34.70761, 0.0], [-58.457814, -34.707784, 0.0], [-58.457709, -34.708047, 0.0], [-58.456709, -34.708796, 0.0], [-58.455907, -34.709482, 0.0], [-58.454872, -34.710876, 0.0], [-58.454357, -34.711252, 0.0], [-58.454057, -34.711508, 0.0], [-58.453472, -34.712222, 0.0], [-58.452844, -34.713007, 0.0], [-58.451911, -34.714242, 0.0], [-58.45156, -34.714665, 0.0], [-58.451511, -34.714974, 0.0], [-58.450331, -34.716534, 0.0], [-58.449151, -34.718078, 0.0], [-58.447628, -34.719965, 0.0], [-58.446469, -34.721438, 0.0], [-58.444613, -34.723783, 0.0], [-58.443154, -34.725432, 0.0], [-58.440899, -34.728558, 0.0], [-58.439139, -34.730798, 0.0], [-58.436834, -34.733807, 0.0], [-58.435766, -34.735244, 0.0], [-58.434988, -34.736196, 0.0], [-58.433942, -34.738123, 0.0], [-58.433436, -34.739011, 0.0], [-58.432514, -34.740197, 0.0], [-58.431628, -34.741321, 0.0], [-58.430244, -34.743115, 0.0], [-58.429944, -34.743521, 0.0], [-58.42982, -34.743979, 0.0], [-58.429912, -34.744742, 0.0], [-58.43048, -34.74699, 0.0], [-58.430641, -34.747594, 0.0], [-58.431344, -34.748356, 0.0], [-58.433048, -34.749319, 0.0], [-58.435655, -34.750676, 0.0], [-58.436202, -34.750967, 0.0], [-58.436438, -34.751523, 0.0], [-58.436116, -34.752166, 0.0], [-58.433996, -34.755211, 0.0], [-58.432897, -34.75674, 0.0], [-58.43251, -34.757348, 0.0], [-58.431947, -34.758671, 0.0], [-58.431647, -34.759305, 0.0], [-58.431277, -34.759936, 0.0], [-58.430756, -34.760019, 0.0], [-58.415672, -34.762289, 0.0], [-58.406135, -34.763628, 0.0], [-58.405641, -34.761217, 0.0], [-58.397902, -34.762261, 0.0], [-58.397743, -34.762208, 0.0], [-58.397679, -34.761639, 0.0], [-58.397736, -34.761328, 0.0], [-58.39767, -34.760526, 0.0]]}}]},
+            'Autobuses 542 - V a La Noria': {"type": "FeatureCollection", "name": "Autobuses 542 - V a La Noria", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "542 - Lomas a La Noria", "nombre": "542 - Lomas a La Noria"}, "geometry": {"type": "LineString", "coordinates": [[-58.397666, -34.76052, 0.0], [-58.397605, -34.7598, 0.0], [-58.403863, -34.758896, 0.0], [-58.4048166, -34.7637086, 0.0], [-58.429771, -34.759987, 0.0], [-58.430426, -34.759916, 0.0], [-58.431048, -34.759493, 0.0], [-58.431381, -34.75885, 0.0], [-58.432058, -34.757226, 0.0], [-58.433829, -34.754772, 0.0], [-58.4356, -34.752105, 0.0], [-58.435782, -34.751589, 0.0], [-58.435567, -34.751113, 0.0], [-58.434966, -34.750814, 0.0], [-58.432414, -34.749496, 0.0], [-58.43103, -34.748781, 0.0], [-58.430301, -34.748032, 0.0], [-58.430043, -34.747486, 0.0], [-58.429411, -34.7446, 0.0], [-58.429358, -34.744023, 0.0], [-58.429438, -34.74356, 0.0], [-58.429214, -34.742917, 0.0], [-58.428897, -34.742481, 0.0], [-58.429267, -34.742088, 0.0], [-58.429975, -34.742494, 0.0], [-58.430104, -34.742529, 0.0], [-58.430303, -34.742353, 0.0], [-58.431379, -34.740934, 0.0], [-58.43305, -34.738658, 0.0], [-58.43357, -34.737714, 0.0], [-58.434236, -34.736374, 0.0], [-58.434831, -34.735276, 0.0], [-58.437397, -34.731929, 0.0], [-58.440078, -34.728469, 0.0], [-58.441773, -34.726121, 0.0], [-58.44416, -34.723026, 0.0], [-58.44518, -34.721703, 0.0], [-58.445727, -34.721201, 0.0], [-58.446253, -34.72053, 0.0], [-58.447982, -34.71843, 0.0], [-58.449527, -34.716331, 0.0], [-58.450485, -34.715255, 0.0], [-58.451061, -34.714589, 0.0], [-58.451426, -34.7145, 0.0], [-58.452584, -34.712966, 0.0], [-58.45356, -34.711864, 0.0], [-58.453679, -34.71162, 0.0], [-58.454102, -34.710941, 0.0], [-58.454768, -34.710015, 0.0], [-58.455224, -34.709446, 0.0], [-58.455116, -34.709256, 0.0], [-58.45429, -34.708809, 0.0], [-58.454191, -34.70861, 0.0], [-58.454135, -34.708294, 0.0], [-58.454277, -34.707998, 0.0], [-58.454537, -34.707824, 0.0], [-58.455882, -34.707343, 0.0], [-58.455463, -34.706838, 0.0], [-58.454295, -34.707528, 0.0]]}}]},
+
+            'Autobuses 540 - I a Lomas': {"type": "FeatureCollection", "name": "Autobuses 540 - I a Lomas", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "540 - La Noria a Lomas", "nombre": "540 - La Noria a Lomas"}, "geometry": {"type": "LineString", "coordinates": [[-58.454424, -34.707445, 0.0], [-58.454089, -34.707637, 0.0], [-58.454116, -34.707716, 0.0], [-58.454223, -34.707813, 0.0], [-58.454462, -34.707895, 0.0], [-58.456105, -34.707271, 0.0], [-58.458044, -34.706471, 0.0], [-58.45864, -34.706173, 0.0], [-58.458996, -34.706196, 0.0], [-58.459422, -34.706503, 0.0], [-58.459593, -34.706536, 0.0], [-58.459864, -34.706448, 0.0], [-58.460223, -34.706234, 0.0], [-58.460608, -34.70603, 0.0], [-58.460833, -34.705969, 0.0], [-58.461313, -34.706058, 0.0], [-58.461552, -34.706225, 0.0], [-58.468217, -34.713166, 0.0], [-58.474467, -34.719017, 0.0], [-58.471318, -34.721449, 0.0], [-58.470138, -34.72241, 0.0], [-58.468981, -34.723856, 0.0], [-58.466417, -34.727074, 0.0], [-58.466957, -34.727857, 0.0], [-58.467086, -34.728307, 0.0], [-58.466893, -34.72873, 0.0], [-58.464244, -34.732206, 0.0], [-58.464314, -34.732471, 0.0], [-58.464061, -34.732797, 0.0], [-58.454865, -34.745055, 0.0], [-58.453403, -34.744337, 0.0], [-58.443924, -34.756574, 0.0], [-58.443854, -34.756662, 0.0], [-58.442384, -34.755938, 0.0], [-58.434673, -34.766044, 0.0], [-58.436808, -34.767203, 0.0], [-58.437358, -34.767702, 0.0], [-58.437338, -34.768076, 0.0], [-58.436736, -34.768833, 0.0], [-58.435306, -34.76809, 0.0], [-58.433869, -34.767879, 0.0], [-58.433462, -34.767769, 0.0], [-58.432979, -34.767518, 0.0], [-58.431487, -34.766685, 0.0], [-58.430115, -34.76587, 0.0], [-58.42952, -34.765495, 0.0], [-58.429225, -34.765345, 0.0], [-58.428999, -34.765301, 0.0], [-58.428662, -34.765315, 0.0], [-58.427804, -34.765425, 0.0], [-58.416792, -34.767038, 0.0], [-58.409556, -34.768054, 0.0], [-58.403267, -34.764686, 0.0], [-58.402711, -34.761686, 0.0], [-58.397867, -34.762247, 0.0], [-58.397769, -34.762204, 0.0], [-58.397729, -34.762019, 0.0], [-58.397683, -34.761622, 0.0], [-58.397762, -34.761276, 0.0], [-58.397659, -34.760228, 0.0]]}}]},
+            'Autobuses 540 - V a La Noria': {"type": "FeatureCollection", "name": "Autobuses 540 - V a La Noria", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "540 - Lomas a La Noria", "nombre": "540 - Lomas a La Noria"}, "geometry": {"type": "LineString", "coordinates": [[-58.397648, -34.760227, 0.0], [-58.397602, -34.759819, 0.0], [-58.40381, -34.758904, 0.0], [-58.404345, -34.761337, 0.0], [-58.405209, -34.76552, 0.0], [-58.409622, -34.767866, 0.0], [-58.417794, -34.766689, 0.0], [-58.427672, -34.765272, 0.0], [-58.428668, -34.76513, 0.0], [-58.429065, -34.765112, 0.0], [-58.429398, -34.765227, 0.0], [-58.429655, -34.76535, 0.0], [-58.431028, -34.766205, 0.0], [-58.433314, -34.767527, 0.0], [-58.434564, -34.765976, 0.0], [-58.442369, -34.75576, 0.0], [-58.443767, -34.75651, 0.0], [-58.446176, -34.753285, 0.0], [-58.452098, -34.745695, 0.0], [-58.453351, -34.744122, 0.0], [-58.454736, -34.744829, 0.0], [-58.458538, -34.739807, 0.0], [-58.461593, -34.735747, 0.0], [-58.463956, -34.732594, 0.0], [-58.463913, -34.732367, 0.0], [-58.464021, -34.73222, 0.0], [-58.464096, -34.732189, 0.0], [-58.46431, -34.731896, 0.0], [-58.466599, -34.728849, 0.0], [-58.466814, -34.728511, 0.0], [-58.466894, -34.72822, 0.0], [-58.466792, -34.727914, 0.0], [-58.466218, -34.72708, 0.0], [-58.467343, -34.725538, 0.0], [-58.468717, -34.723951, 0.0], [-58.469999, -34.722346, 0.0], [-58.470691, -34.721764, 0.0], [-58.474199, -34.719096, 0.0], [-58.468889, -34.714243, 0.0], [-58.464981, -34.710333, 0.0], [-58.461516, -34.706726, 0.0], [-58.461161, -34.706386, 0.0], [-58.460673, -34.706162, 0.0], [-58.459771, -34.706762, 0.0], [-58.458883, -34.7078, 0.0], [-58.458355, -34.707857, 0.0], [-58.458173, -34.707785, 0.0], [-58.457953, -34.707822, 0.0], [-58.457802, -34.707932, 0.0], [-58.456544, -34.708866, 0.0], [-58.45601, -34.70936, 0.0], [-58.455442, -34.709371, 0.0], [-58.455002, -34.70921, 0.0], [-58.454279, -34.708788, 0.0], [-58.454156, -34.708408, 0.0], [-58.454277, -34.708053, 0.0], [-58.454698, -34.70776, 0.0], [-58.455758, -34.70738, 0.0], [-58.455873, -34.707332, 0.0], [-58.45572, -34.707116, 0.0], [-58.455468, -34.706825, 0.0], [-58.454442, -34.707438, 0.0]]}}]},
+
+            'Autobuses 548B - I a La Noria': {"type": "FeatureCollection", "name": "Autobuses 548B - I a La Noria", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "548 B - Penal a La Noria", "nombre": "548 B - Penal a La Noria"}, "geometry": {"type": "LineString", "coordinates": [[-58.465319, -34.756803, 0.0], [-58.475491, -34.743182, 0.0], [-58.470094, -34.740354, 0.0], [-58.466632, -34.74487, 0.0], [-58.465006, -34.743977, 0.0], [-58.463863, -34.743444, 0.0], [-58.461324, -34.742224, 0.0], [-58.458221, -34.740684, 0.0], [-58.458019, -34.740576, 0.0], [-58.461467, -34.735975, 0.0], [-58.445841, -34.727949, 0.0], [-58.441925, -34.725877, 0.0], [-58.444544, -34.722571, 0.0], [-58.44522, -34.721716, 0.0], [-58.445695, -34.721264, 0.0], [-58.446229, -34.720611, 0.0], [-58.447532, -34.718911, 0.0], [-58.449356, -34.716503, 0.0], [-58.451028, -34.714655, 0.0], [-58.451446, -34.71447, 0.0], [-58.453678, -34.711746, 0.0], [-58.454166, -34.710776, 0.0], [-58.455103, -34.709621, 0.0], [-58.455257, -34.709406, 0.0], [-58.455175, -34.709241, 0.0], [-58.45433, -34.708798, 0.0], [-58.454201, -34.70859, 0.0], [-58.454194, -34.708352, 0.0], [-58.454215, -34.708109, 0.0], [-58.454086, -34.70779, 0.0], [-58.453917, -34.707566, 0.0], [-58.45454, -34.7072, 0.0]]}}]},
+            'Autobuses 548B - V al Penal': {"type": "FeatureCollection", "name": "Autobuses 548B - V al Penal", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "548 B - La Noria al Penal", "nombre": "548 B - La Noria al Penal"}, "geometry": {"type": "LineString", "coordinates": [[-58.454766, -34.707261, 0.0], [-58.45551, -34.706814, 0.0], [-58.455852, -34.707182, 0.0], [-58.455889, -34.707244, 0.0], [-58.455955, -34.707361, 0.0], [-58.456823, -34.707045, 0.0], [-58.457116, -34.706964, 0.0], [-58.457375, -34.70703, 0.0], [-58.45769, -34.707339, 0.0], [-58.457841, -34.707586, 0.0], [-58.457854, -34.707686, 0.0], [-58.457764, -34.707929, 0.0], [-58.456293, -34.709123, 0.0], [-58.45588, -34.709555, 0.0], [-58.454539, -34.711208, 0.0], [-58.454057, -34.711508, 0.0], [-58.45353, -34.712112, 0.0], [-58.452412, -34.713604, 0.0], [-58.45155, -34.714645, 0.0], [-58.45156, -34.714931, 0.0], [-58.449876, -34.717113, 0.0], [-58.44639, -34.721595, 0.0], [-58.442787, -34.726143, 0.0], [-58.44938, -34.729554, 0.0], [-58.453078, -34.731458, 0.0], [-58.456895, -34.73346, 0.0], [-58.460897, -34.735541, 0.0], [-58.461616, -34.73595, 0.0], [-58.458258, -34.740503, 0.0], [-58.459786, -34.741303, 0.0], [-58.464551, -34.743579, 0.0], [-58.465205, -34.743884, 0.0], [-58.465908, -34.744316, 0.0], [-58.466637, -34.744681, 0.0], [-58.468514, -34.742201, 0.0], [-58.470074, -34.740237, 0.0], [-58.47263, -34.74157, 0.0], [-58.474443, -34.742531, 0.0], [-58.475564, -34.743109, 0.0], [-58.475678, -34.74321, 0.0], [-58.472282, -34.747718, 0.0], [-58.473569, -34.748344, 0.0], [-58.478406, -34.750994, 0.0], [-58.476031, -34.754213, 0.0], [-58.474008, -34.756876, 0.0], [-58.473376, -34.756729, 0.0], [-58.47317, -34.756722, 0.0], [-58.472778, -34.756795, 0.0], [-58.471584, -34.757014, 0.0], [-58.470924, -34.754352, 0.0], [-58.470662, -34.753334, 0.0], [-58.470919, -34.752928, 0.0], [-58.470892, -34.752743, 0.0], [-58.470457, -34.752267, 0.0], [-58.470382, -34.752113, 0.0], [-58.470259, -34.75165, 0.0], [-58.470016, -34.75063, 0.0], [-58.465384, -34.756858, 0.0]]}}]},
+
+            'Autobuses 550L - I a Lomas': {"type": "FeatureCollection", "name": "Autobuses 550L - I a Lomas", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "550 L - La Noria a Lomas", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.455061, -34.7076, 0.0], [-58.457476, -34.706762, 0.0], [-58.458044, -34.706471, 0.0], [-58.458547, -34.705808, 0.0], [-58.458944, -34.705575, 0.0], [-58.459534, -34.705262, 0.0], [-58.459582, -34.705041, 0.0], [-58.459357, -34.70445, 0.0], [-58.456411, -34.701026, 0.0], [-58.450032, -34.693481, 0.0], [-58.448816, -34.693999, 0.0], [-58.448269, -34.694317, 0.0], [-58.447733, -34.694987, 0.0], [-58.447175, -34.695737, 0.0], [-58.446082, -34.696752, 0.0], [-58.444977, -34.697634, 0.0], [-58.443464, -34.698834, 0.0], [-58.441984, -34.700774, 0.0], [-58.439892, -34.703535, 0.0], [-58.439259, -34.704373, 0.0], [-58.440385, -34.705114, 0.0], [-58.43712, -34.70939, 0.0], [-58.432399, -34.715696, 0.0], [-58.433057, -34.715996, 0.0], [-58.429228, -34.720977, 0.0], [-58.423567, -34.728277, 0.0], [-58.418632, -34.734749, 0.0], [-58.418403, -34.734987, 0.0], [-58.417564, -34.734598, 0.0], [-58.418092, -34.738787, 0.0], [-58.418537, -34.741899, 0.0], [-58.419234, -34.747118, 0.0], [-58.413537, -34.747902, 0.0], [-58.41482, -34.7538, 0.0], [-58.406103, -34.755062, 0.0], [-58.406336, -34.756195, 0.0], [-58.404755, -34.756436, 0.0], [-58.401892, -34.756831, 0.0], [-58.402121, -34.757925, 0.0], [-58.403547, -34.75771, 0.0], [-58.40432, -34.761418, 0.0], [-58.398405, -34.762178, 0.0], [-58.397923, -34.762253, 0.0], [-58.397765, -34.762221, 0.0], [-58.397702, -34.761649, 0.0], [-58.39778, -34.76134, 0.0], [-58.397707, -34.760676, 0.0]]}}]},
+            'Autobuses 550L - V a La Noria': {"type": "FeatureCollection", "name": "Autobuses 550L - V a La Noria", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "550 L - Lomas a La Noria", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.3977, -34.760675, 0.0], [-58.397626, -34.759828, 0.0], [-58.398136, -34.759709, 0.0], [-58.405147, -34.758735, 0.0], [-58.404904, -34.757527, 0.0], [-58.410685, -34.756689, 0.0], [-58.409675, -34.752081, 0.0], [-58.409198, -34.749815, 0.0], [-58.408905, -34.7484, 0.0], [-58.414951, -34.747485, 0.0], [-58.418986, -34.746956, 0.0], [-58.417382, -34.734338, 0.0], [-58.418337, -34.734709, 0.0], [-58.431246, -34.717993, 0.0], [-58.432797, -34.716042, 0.0], [-58.432234, -34.715733, 0.0], [-58.438063, -34.70789, 0.0], [-58.438203, -34.707749, 0.0], [-58.43698, -34.707132, 0.0], [-58.439011, -34.704372, 0.0], [-58.441071, -34.701646, 0.0], [-58.442702, -34.699556, 0.0], [-58.443389, -34.698599, 0.0], [-58.445101, -34.6973, 0.0], [-58.447065, -34.695501, 0.0], [-58.448094, -34.694275, 0.0], [-58.448668, -34.693847, 0.0], [-58.449237, -34.693582, 0.0], [-58.449892, -34.693326, 0.0], [-58.4502, -34.693248, 0.0], [-58.451557, -34.694836, 0.0], [-58.453789, -34.697438, 0.0], [-58.455983, -34.700098, 0.0], [-58.458504, -34.703017, 0.0], [-58.458976, -34.703594, 0.0], [-58.459185, -34.703828, 0.0], [-58.459555, -34.704088, 0.0], [-58.459797, -34.704374, 0.0], [-58.459974, -34.70474, 0.0], [-58.459931, -34.705023, 0.0], [-58.459475, -34.705457, 0.0], [-58.458907, -34.705828, 0.0], [-58.458762, -34.705986, 0.0], [-58.458773, -34.706097, 0.0], [-58.458996, -34.706196, 0.0], [-58.459533, -34.706618, 0.0], [-58.459582, -34.706852, 0.0], [-58.458965, -34.707615, 0.0], [-58.458728, -34.707814, 0.0], [-58.458027, -34.707761, 0.0], [-58.457622, -34.708014, 0.0], [-58.456694, -34.708679, 0.0], [-58.455884, -34.709446, 0.0], [-58.455069, -34.709301, 0.0], [-58.454184, -34.708692, 0.0], [-58.454299, -34.707932, 0.0], [-58.455613, -34.707421, 0.0]]}}]},
+            'Autobuses 550U - I a Lomas': {"type": "FeatureCollection", "name": "Autobuses 550 U - I a Lomas", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "550 U - La Noria a Lomas", "nombre": "550 U - La Noria a Lomas"}, "geometry": {"type": "LineString", "coordinates": [[-58.4556043, -34.7074324, 0.0], [-58.4569193, -34.7069634, 0.0], [-58.4572793, -34.7069614, 0.0], [-58.4574623, -34.7071364, 0.0], [-58.4577513, -34.7074524, 0.0], [-58.4578413, -34.7076854, 0.0], [-58.4577383, -34.7079744, 0.0], [-58.4566573, -34.7087684, 0.0], [-58.4563013, -34.7089834, 0.0], [-58.4553113, -34.7101674, 0.0], [-58.4546683, -34.7110604, 0.0], [-58.4537003, -34.7123764, 0.0], [-58.4533323, -34.7128114, 0.0], [-58.4531443, -34.7128354, 0.0], [-58.4527903, -34.7126464, 0.0], [-58.4527263, -34.7124524, 0.0], [-58.4531123, -34.7119714, 0.0], [-58.4539713, -34.7109044, 0.0], [-58.4503173, -34.7089024, 0.0], [-58.4486223, -34.7111244, 0.0], [-58.4469703, -34.7132414, 0.0], [-58.4444173, -34.7164864, 0.0], [-58.4439983, -34.7170154, 0.0], [-58.4430113, -34.7176504, 0.0], [-58.4426353, -34.7180304, 0.0], [-58.4422173, -34.7185854, 0.0], [-58.4417253, -34.7191934, 0.0], [-58.4408083, -34.7203554, 0.0], [-58.4385293, -34.7190934, 0.0], [-58.4356733, -34.7228674, 0.0], [-58.4335043, -34.7256214, 0.0], [-58.4323993, -34.7273584, 0.0], [-58.4289663, -34.7320324, 0.0], [-58.4285153, -34.7327904, 0.0], [-58.4269793, -34.7366434, 0.0], [-58.4255743, -34.7402404, 0.0], [-58.4245913, -34.7463464, 0.0], [-58.4240603, -34.7463954, 0.0], [-58.4238243, -34.7489344, 0.0], [-58.4236153, -34.7512134, 0.0], [-58.4190373, -34.7519704, 0.0], [-58.4065063, -34.7538564, 0.0], [-58.4059483, -34.7539274, 0.0], [-58.4066613, -34.7577884, 0.0], [-58.4073153, -34.7609974, 0.0], [-58.3979413, -34.7622304, 0.0], [-58.3977973, -34.7621964, 0.0], [-58.3977553, -34.7621614, 0.0], [-58.3977013, -34.7616214, 0.0], [-58.3977663, -34.7612964, 0.0], [-58.3977593, -34.7611824, 0.0], [-58.3976293, -34.7600124, 0.0]]}}]},
+            'Autobuses 550U - V a La Noria': {"type": "FeatureCollection", "name": "Autobuses 550 U - V a La Noria", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "550 U - Lomas a La Noria", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.39764, -34.760017, 0.0], [-58.39762, -34.759825, 0.0], [-58.399624, -34.759474, 0.0], [-58.402156, -34.759127, 0.0], [-58.403936, -34.758928, 0.0], [-58.405135, -34.758718, 0.0], [-58.404643, -34.756444, 0.0], [-58.404338, -34.754964, 0.0], [-58.404137, -34.753952, 0.0], [-58.405862, -34.753723, 0.0], [-58.412782, -34.752705, 0.0], [-58.420228, -34.751488, 0.0], [-58.423468, -34.751074, 0.0], [-58.423986, -34.746288, 0.0], [-58.42441, -34.746248, 0.0], [-58.425278, -34.74027, 0.0], [-58.428046, -34.733203, 0.0], [-58.428394, -34.732458, 0.0], [-58.42892, -34.731603, 0.0], [-58.429188, -34.731312, 0.0], [-58.435455, -34.722527, 0.0], [-58.43848, -34.71877, 0.0], [-58.440819, -34.720181, 0.0], [-58.441554, -34.719233, 0.0], [-58.442736, -34.71777, 0.0], [-58.442953, -34.717561, 0.0], [-58.443946, -34.716926, 0.0], [-58.444305, -34.716516, 0.0], [-58.444879, -34.715731, 0.0], [-58.445696, -34.71468, 0.0], [-58.447418, -34.712431, 0.0], [-58.450351, -34.708734, 0.0], [-58.453521, -34.710525, 0.0], [-58.454062, -34.710825, 0.0], [-58.454768, -34.710015, 0.0], [-58.455168, -34.709432, 0.0], [-58.454138, -34.708691, 0.0], [-58.454114, -34.708318, 0.0], [-58.454311, -34.707826, 0.0], [-58.455719, -34.707408, 0.0]]}}]},
+            'Autobuses 551A - I a Lomas': {"type": "FeatureCollection", "name": "Autobuses 551A - I a Lomas", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "551 A - Penal a Lomas", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.465646, -34.756334, 0.0], [-58.466669, -34.754952, 0.0], [-58.468629, -34.752324, 0.0], [-58.470028, -34.75049, 0.0], [-58.470092, -34.750679, 0.0], [-58.470242, -34.75116, 0.0], [-58.470424, -34.751928, 0.0], [-58.470568, -34.752263, 0.0], [-58.470885, -34.752545, 0.0], [-58.471035, -34.752792, 0.0], [-58.470785, -34.753323, 0.0], [-58.470925, -34.753812, 0.0], [-58.471407, -34.755694, 0.0], [-58.471676, -34.756879, 0.0], [-58.47321, -34.756615, 0.0], [-58.473483, -34.75665, 0.0], [-58.473972, -34.756774, 0.0], [-58.47821, -34.75104, 0.0], [-58.467344, -34.745313, 0.0], [-58.464447, -34.743761, 0.0], [-58.458166, -34.740636, 0.0], [-58.454807, -34.745051, 0.0], [-58.453397, -34.744312, 0.0], [-58.452303, -34.745732, 0.0], [-58.442321, -34.740223, 0.0], [-58.438823, -34.744813, 0.0], [-58.438198, -34.744114, 0.0], [-58.436924, -34.745564, 0.0], [-58.436116, -34.746551, 0.0], [-58.432786, -34.744596, 0.0], [-58.432185, -34.745292, 0.0], [-58.427227, -34.74602, 0.0], [-58.401919, -34.749561, 0.0], [-58.403336, -34.756627, 0.0], [-58.401879, -34.756837, 0.0], [-58.402126, -34.757918, 0.0], [-58.40356, -34.757702, 0.0], [-58.404338, -34.761416, 0.0], [-58.397904, -34.762255, 0.0], [-58.397776, -34.762199, 0.0], [-58.397719, -34.761638, 0.0], [-58.397789, -34.76131, 0.0], [-58.397674, -34.76043, 0.0]]}}]},
+            'Autobuses 551A - V al Penal': {"type": "FeatureCollection", "name": "Autobuses 551A - V al Penal", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "551 A - Lomas al Penal", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.397665, -34.760434, 0.0], [-58.397614, -34.759806, 0.0], [-58.405153, -34.75873, 0.0], [-58.403147, -34.74922, 0.0], [-58.429541, -34.745478, 0.0], [-58.432181, -34.74517, 0.0], [-58.432771, -34.744395, 0.0], [-58.436108, -34.746383, 0.0], [-58.4382, -34.743972, 0.0], [-58.438813, -34.744639, 0.0], [-58.442323, -34.740035, 0.0], [-58.452253, -34.745541, 0.0], [-58.453361, -34.74416, 0.0], [-58.454759, -34.744868, 0.0], [-58.458133, -34.740465, 0.0], [-58.465151, -34.743836, 0.0], [-58.478429, -34.750979, 0.0], [-58.474063, -34.756867, 0.0], [-58.473312, -34.756746, 0.0], [-58.473108, -34.756759, 0.0], [-58.471558, -34.757041, 0.0], [-58.470662, -34.753334, 0.0], [-58.470831, -34.752854, 0.0], [-58.470767, -34.752704, 0.0], [-58.470488, -34.752369, 0.0], [-58.470295, -34.752078, 0.0], [-58.469998, -34.750686, 0.0], [-58.465449, -34.756803, 0.0]]}}]},
+            'Autobuses 551C - I a Ruta 4': {"type": "FeatureCollection", "name": "Autobuses 551C - I a Ruta 4", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "551 C - La Noria a Ruta 4", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.454602, -34.707176, 0.0], [-58.45538, -34.706722, 0.0], [-58.455842, -34.707249, 0.0], [-58.455904, -34.707367, 0.0], [-58.457983, -34.706473, 0.0], [-58.458715, -34.70619, 0.0], [-58.45912, -34.70632, 0.0], [-58.459276, -34.706453, 0.0], [-58.459593, -34.706536, 0.0], [-58.460271, -34.706254, 0.0], [-58.460871, -34.705932, 0.0], [-58.461397, -34.706016, 0.0], [-58.468615, -34.71359, 0.0], [-58.479366, -34.723507, 0.0], [-58.472834, -34.732275, 0.0], [-58.475073, -34.733325, 0.0], [-58.480811, -34.735774, 0.0], [-58.465433, -34.75693, 0.0], [-58.465235, -34.756824, 0.0], [-58.470029, -34.750481, 0.0], [-58.470397, -34.751862, 0.0], [-58.470522, -34.75223, 0.0], [-58.470888, -34.752583, 0.0], [-58.471015, -34.752796, 0.0], [-58.471023, -34.752917, 0.0], [-58.470765, -34.75332, 0.0], [-58.471665, -34.756903, 0.0], [-58.473084, -34.756656, 0.0], [-58.473315, -34.756636, 0.0], [-58.473657, -34.756714, 0.0], [-58.473968, -34.756789, 0.0], [-58.47832, -34.750898, 0.0], [-58.48242, -34.753008, 0.0], [-58.481916, -34.753669, 0.0], [-58.484303, -34.75485, 0.0]]}}]},
+            'Autobuses 551C - V a La Noria': {"type": "FeatureCollection", "name": "Autobuses 551C - V a La Noria", "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, "features": [{"type": "Feature", "properties": {"Name": "551 C - Ruta 4 a La Noria", "nombre": ""}, "geometry": {"type": "LineString", "coordinates": [[-58.484754, -34.754335, 0.0], [-58.478358, -34.751104, 0.0], [-58.474031, -34.756879, 0.0], [-58.473288, -34.756718, 0.0], [-58.471567, -34.757024, 0.0], [-58.470642, -34.753334, 0.0], [-58.470884, -34.752966, 0.0], [-58.470851, -34.752708, 0.0], [-58.470546, -34.752406, 0.0], [-58.470393, -34.752216, 0.0], [-58.470003, -34.750665, 0.0], [-58.465402, -34.756863, 0.0], [-58.465304, -34.756803, 0.0], [-58.471999, -34.747795, 0.0], [-58.48059, -34.735808, 0.0], [-58.47515, -34.733579, 0.0], [-58.47265, -34.732308, 0.0], [-58.479065, -34.723541, 0.0], [-58.461296, -34.706473, 0.0], [-58.46076, -34.706151, 0.0], [-58.45978, -34.706834, 0.0], [-58.459217, -34.70754, 0.0], [-58.4586, -34.707946, 0.0], [-58.457343, -34.708311, 0.0], [-58.456002, -34.709537, 0.0], [-58.454138, -34.708691, 0.0], [-58.454199, -34.708094, 0.0], [-58.454077, -34.70775, 0.0], [-58.453889, -34.707582, 0.0], [-58.454551, -34.707221, 0.0]]}}]},
+
+            'lomas_limits': { "type": "FeatureCollection", "name": "municipios_Lomas de Zamora", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "fid": 75, "CODIGO": "06490", "Partido": "Lomas de Zamora", "CODPROV": "06", "PROV": "Buenos Aires", "SUPERFICIE": 88.514, "LATITUD_CE": -34.754934, "LONGITUD_C": -58.423996 }, "geometry": { "type": "MultiPolygon", "coordinates": [[[[-58.476705807574255, -34.755762823164], [-58.477324777769695, -34.75491606268845], [-58.477644720280004, -34.75457196719605], [-58.47924522975582, -34.75233476926666], [-58.47972426765003, -34.75170847064193], [-58.48023752644781, -34.751124736727625], [-58.48220897254261, -34.74842972015801], [-58.4823182709522, -34.7481264529304], [-58.48397074613024, -34.74588341589079], [-58.48451983321532, -34.74514460979656], [-58.4850323604816, -34.74444846696813], [-58.48824944073442, -34.740145550028146], [-58.48885394966758, -34.73927535090575], [-58.48922319414436, -34.73877700161585], [-58.492099016711364, -34.734929106471334], [-58.49236482335125, -34.73455015202235], [-58.49298642932805, -34.7336405448072], [-58.49474693681848, -34.731309655432234], [-58.49625077521146, -34.729286369061825], [-58.496289218936425, -34.72898318832031], [-58.49735537039259, -34.727552878665804], [-58.500736911819835, -34.72298113236607], [-58.50087843685551, -34.72307077905044], [-58.501314900192384, -34.72245971219538], [-58.50050176116739, -34.72299353458759], [-58.50021722675858, -34.72307028227685], [-58.49990941997905, -34.723073690985416], [-58.499171089985694, -34.72311334881005], [-58.498612707862804, -34.72320908230313], [-58.49826579816706, -34.72331341714705], [-58.497729462295965, -34.723675632347884], [-58.49716051890645, -34.72388753726772], [-58.49688070979369, -34.72412184411322], [-58.49666354350785, -34.724355537296624], [-58.49653932938397, -34.72455454633738], [-58.4964289178965, -34.724691500388936], [-58.496213783104366, -34.72481297932553], [-58.496000002816075, -34.72488960611367], [-58.49581341932562, -34.72493646256695], [-58.495415227109355, -34.72491628495933], [-58.495053975412084, -34.7248489658047], [-58.494646579291754, -34.72490011231059], [-58.494207385645, -34.72497175469671], [-58.493918916222896, -34.72506172333217], [-58.49372176951431, -34.725224754226936], [-58.493669398057136, -34.72535182166057], [-58.49366532190344, -34.725576246828005], [-58.493574775923335, -34.72594360033971], [-58.4934000798785, -34.72618890592611], [-58.49339843284119, -34.72647639138057], [-58.49333101978343, -34.72685865899864], [-58.49325239040602, -34.72706498272315], [-58.493070660931096, -34.727237954837776], [-58.492884331127016, -34.72740165437961], [-58.49270368087424, -34.72759266694824], [-58.49243750654117, -34.72788622312287], [-58.49205321255837, -34.72813201441162], [-58.49195632827474, -34.72817993110276], [-58.49159328383896, -34.728341660568695], [-58.49121265343082, -34.728457363064955], [-58.49065396401788, -34.728526075967196], [-58.49018917514388, -34.72860959572919], [-58.48959881241784, -34.728757223380356], [-58.489166622459926, -34.728901176531075], [-58.48865676692699, -34.72903132419179], [-58.48822388770809, -34.7292426340471], [-58.487824980279925, -34.72937965922099], [-58.487554072957046, -34.72951563568283], [-58.48741685927589, -34.72958800802258], [-58.48707870408771, -34.729715318360974], [-58.48703445211546, -34.72975301507463], [-58.486836999544394, -34.72997892352247], [-58.48670937360346, -34.73015524100269], [-58.48654140512314, -34.730445887401125], [-58.48646017325972, -34.730710459856844], [-58.48634305599721, -34.73113007953452], [-58.486115108263064, -34.73160123879457], [-58.48595311077375, -34.73176643565692], [-58.48573845773868, -34.73203171641032], [-58.485565492471956, -34.73222768685043], [-58.485091323727225, -34.732413954189965], [-58.48455225885728, -34.73232658068449], [-58.48411836761746, -34.73207048443972], [-58.48387285188776, -34.73171823324786], [-58.48383801197681, -34.73138355026685], [-58.483868545354476, -34.730958560460195], [-58.48395181988704, -34.73067164947762], [-58.484073916577756, -34.73043657643274], [-58.48412078941045, -34.730160886798465], [-58.48411638719915, -34.729850560453094], [-58.48411953649608, -34.729666521415204], [-58.48407302050943, -34.7295198419738], [-58.48401499005275, -34.72943985080751], [-58.48395046871694, -34.729341482712215], [-58.48381047874113, -34.72908565127134], [-58.48364804569791, -34.72874754350391], [-58.48359493514376, -34.728434194429184], [-58.483676172257745, -34.72816962478398], [-58.483829498673295, -34.728039840985716], [-58.48399214522916, -34.72798702522509], [-58.484146284416276, -34.727848304359206], [-58.48419432125707, -34.72782881771241], [-58.48457350307042, -34.72751982669373], [-58.48357920664708, -34.72660435538188], [-58.48035942840462, -34.72377129790915], [-58.479651407600905, -34.72326900130851], [-58.47931568164129, -34.7229515844375], [-58.47923249300094, -34.72287901647999], [-58.47595556799269, -34.71984010522675], [-58.474618609002945, -34.7185662752605], [-58.472405843878974, -34.71648310511167], [-58.47133742402423, -34.715518009334055], [-58.470686230740164, -34.71496078507946], [-58.46984953301634, -34.71414039220681], [-58.469123337788105, -34.713421227290546], [-58.46870993249376, -34.713031554977356], [-58.468140347192566, -34.71247489972199], [-58.46693508018104, -34.711281083693144], [-58.465239276446404, -34.70958942941504], [-58.463255185679586, -34.70747990475128], [-58.46266647756289, -34.70689507832993], [-58.461612263565826, -34.70583643392188], [-58.46125140299717, -34.70546798427681], [-58.46129753966154, -34.70543940131703], [-58.460989821279554, -34.705114698898825], [-58.460709564479444, -34.70478721145773], [-58.45597003872182, -34.69942809193442], [-58.446937928079954, -34.68871930711833], [-58.44657802049788, -34.6890563409884], [-58.446335222569175, -34.68939168762235], [-58.445706581667395, -34.69022870196805], [-58.4452488311798, -34.69089213970365], [-58.444952231315845, -34.69139936935748], [-58.44472590083846, -34.69176269889155], [-58.444565195944065, -34.692062719748215], [-58.44290576482579, -34.694147494103106], [-58.44261639088739, -34.69451587309925], [-58.441433396405195, -34.69605968334222], [-58.441254864123614, -34.696286692711226], [-58.44051418208348, -34.69724699032573], [-58.43802021882374, -34.7004523708435], [-58.43761747532429, -34.700988898823525], [-58.43717654244477, -34.70158594783508], [-58.43652835706439, -34.70242617584758], [-58.43642034637984, -34.70253625910939], [-58.434145691201735, -34.70557100548022], [-58.430303252066906, -34.7105117577989], [-58.42880124072705, -34.71250278304874], [-58.42803991814432, -34.71350662862816], [-58.42630203034748, -34.71578392148892], [-58.42455944792706, -34.71805190300844], [-58.42354706808234, -34.71935903494866], [-58.423034019495915, -34.720027894435646], [-58.42250973020195, -34.72070054123448], [-58.420180690415094, -34.72372257099688], [-58.418476367043766, -34.72592543867065], [-58.41772846990988, -34.72689859089134], [-58.417145536232255, -34.7276753758383], [-58.414995658077345, -34.73051978165785], [-58.41343658885814, -34.732619327010106], [-58.41328823155993, -34.73281222940675], [-58.40953355637661, -34.73333629306454], [-58.4054027166144, -34.73398492007158], [-58.39704151447268, -34.73535635978517], [-58.39455694217072, -34.73573951254839], [-58.39158219776168, -34.736302992477725], [-58.38617469538762, -34.73709985661735], [-58.384988711338956, -34.737447631570284], [-58.38335619210163, -34.737915579459354], [-58.380621291544976, -34.73870953408387], [-58.380168520195056, -34.73883830077082], [-58.376948821384815, -34.74146181692138], [-58.37509758697673, -34.7429403075789], [-58.373326122192424, -34.742024458025185], [-58.371980273725015, -34.741333098672214], [-58.37003118533605, -34.74286824299722], [-58.3692082681407, -34.74352629091847], [-58.367149264214525, -34.7451892467909], [-58.36674278253867, -34.74552306706501], [-58.362007922857934, -34.743103694998915], [-58.3614591160168, -34.74279948471826], [-58.36106979730647, -34.74259519716208], [-58.3602774474095, -34.742217204919946], [-58.35906663835926, -34.74159713078034], [-58.35900918142041, -34.741571039125205], [-58.35824597840698, -34.74117240883285], [-58.35695775712784, -34.74050699154807], [-58.35609631362654, -34.740052723245185], [-58.35380406598862, -34.74000233232072], [-58.347580457908904, -34.739851742687556], [-58.34751508478933, -34.739793694197125], [-58.34707994871518, -34.73937978858743], [-58.347022571730086, -34.739528924884915], [-58.34601521550968, -34.740354864318995], [-58.34589124373804, -34.74051776185433], [-58.34478256586468, -34.74202471671346], [-58.34477924975694, -34.74206045124777], [-58.3440765743647, -34.74300448297514], [-58.34331264222358, -34.74267310990983], [-58.34210094825835, -34.746226829582895], [-58.341814317365724, -34.74673438077508], [-58.34172238054053, -34.74690379248025], [-58.34000526187641, -34.74945052328479], [-58.33934118692565, -34.75044638579826], [-58.33858931107455, -34.75162539306294], [-58.33700555356494, -34.753964845640844], [-58.33674796242506, -34.75433493649691], [-58.338879738189455, -34.75547182116597], [-58.33997647123666, -34.75608937939443], [-58.340369119374444, -34.756316412937814], [-58.340519847153516, -34.75639334632028], [-58.341130681126394, -34.756733030610306], [-58.341223536156875, -34.75678832920819], [-58.342000514087815, -34.75721490341361], [-58.342561387290836, -34.75750648997955], [-58.34306397429719, -34.757780907944294], [-58.343370438824806, -34.757939578309895], [-58.344138274894334, -34.75834758964179], [-58.34509101010686, -34.75887512323861], [-58.34646721423648, -34.759532767731535], [-58.34780847971163, -34.76021514722802], [-58.34918724261565, -34.760904376433494], [-58.35066555440881, -34.761635827159076], [-58.352120171894484, -34.76238822946547], [-58.353142549383584, -34.76292909199602], [-58.35428819247889, -34.763491212670324], [-58.355522971031704, -34.76409040480348], [-58.35646044623804, -34.76460790693992], [-58.35742289930906, -34.76509103504575], [-58.35839494818103, -34.765588241267906], [-58.35939948791783, -34.76608749149412], [-58.36040321281317, -34.76659566883546], [-58.361099169995, -34.766958606975585], [-58.362030031529684, -34.76743072139549], [-58.36133968343101, -34.768240841911435], [-58.36064473582467, -34.76904168107016], [-58.35998101119695, -34.769857965690186], [-58.359327655867354, -34.77062098330785], [-58.35904009492153, -34.770962275788555], [-58.35869842643125, -34.771358561341316], [-58.360104127411304, -34.77205387736026], [-58.36229751134196, -34.77318080660196], [-58.362506185655306, -34.7732793451936], [-58.36322844546066, -34.77365292172484], [-58.36441058380794, -34.774293646102564], [-58.36552774479203, -34.7748718502942], [-58.36666199162975, -34.77544213653449], [-58.367786255577, -34.77600279717699], [-58.36904343474409, -34.77665719919629], [-58.37002152352176, -34.77715021252642], [-58.3703801892452, -34.77733457887054], [-58.373117497462204, -34.778706798095996], [-58.37582117970612, -34.78009032149754], [-58.37716098922987, -34.780794784079205], [-58.38109393581708, -34.782902645654886], [-58.382349321320135, -34.783637685940846], [-58.383215120782225, -34.78411005339354], [-58.38574590969691, -34.78548249182306], [-58.3868600465248, -34.78603785998726], [-58.38778798737839, -34.78654555982839], [-58.3891384851079, -34.787313479084084], [-58.390929412113735, -34.78826634418076], [-58.391971170044606, -34.788839584024224], [-58.39214784924583, -34.78893157080033], [-58.39229245190692, -34.78901704736368], [-58.392826670186096, -34.78930674822661], [-58.39302336081981, -34.78941796485229], [-58.39375551518998, -34.78980547693073], [-58.39491443549304, -34.79046693695633], [-58.395137794941235, -34.79058431990614], [-58.395324074533576, -34.79069038556898], [-58.39538116528989, -34.79072093309652], [-58.39564825952943, -34.79083657061405], [-58.39975686620844, -34.79305826502069], [-58.40196568224828, -34.79426638629134], [-58.402838374464686, -34.79472557928588], [-58.40416620957308, -34.795446990973545], [-58.40609302179259, -34.796525007792916], [-58.40700661765471, -34.797013700392284], [-58.40844284578375, -34.79774187174625], [-58.40914266340998, -34.79812727011934], [-58.41029512814141, -34.79874325874137], [-58.4098392280493, -34.799375173473784], [-58.40973857020726, -34.79952163072179], [-58.409017234072934, -34.80049185920461], [-58.40852428526143, -34.80117086940342], [-58.40781679840502, -34.80104559524199], [-58.407760226591265, -34.80112741766698], [-58.40659573908785, -34.802649452540884], [-58.405736633304215, -34.8038132077657], [-58.40514996900541, -34.804562704089484], [-58.40840155493323, -34.80622261621855], [-58.410428568554956, -34.80722149964985], [-58.41137768588702, -34.807680944162755], [-58.412286840244064, -34.80816034183762], [-58.41322974049314, -34.808628369685735], [-58.414113894210004, -34.8090837203526], [-58.41448282000115, -34.80927760006119], [-58.4153898903555, -34.80972089919284], [-58.416950585094924, -34.81046128534849], [-58.421016604269745, -34.812481975805895], [-58.42200860424178, -34.81297997704922], [-58.42285699999644, -34.81341056238143], [-58.4235919914146, -34.813771132694086], [-58.425076601199756, -34.814511150367565], [-58.4276077256165, -34.81577948364471], [-58.42849599108516, -34.81622151525799], [-58.42976386088642, -34.81683108598427], [-58.43046682604999, -34.81718512024907], [-58.43093288752672, -34.81653128997944], [-58.43146740321697, -34.815814339722664], [-58.4317044892739, -34.81548767616994], [-58.4323421760655, -34.814655854584515], [-58.432810914248165, -34.8140021826907], [-58.4333306192362, -34.81329777582503], [-58.43376420645955, -34.81270031465122], [-58.43420722158488, -34.81214837506243], [-58.435344573874914, -34.81065130672402], [-58.43605482733878, -34.80962179562372], [-58.43715820764376, -34.80816751586897], [-58.43774455993009, -34.80735941005], [-58.43803379157351, -34.80696858945473], [-58.43864097090532, -34.80617076679837], [-58.43899839495423, -34.80568984382724], [-58.439153428397475, -34.80542543504591], [-58.43920012585729, -34.80545082039448], [-58.4393032873568, -34.80548422777014], [-58.43941432788864, -34.80549116701118], [-58.43950181445943, -34.805487647414644], [-58.43958971141143, -34.80547965999256], [-58.43968318926548, -34.80544056741343], [-58.43979808736445, -34.80537585285073], [-58.43990978466243, -34.80525701727229], [-58.439957713522865, -34.80512071663089], [-58.43997166541965, -34.80496881261648], [-58.43992439349452, -34.80483105651249], [-58.43986965337381, -34.80471530076199], [-58.439875152075174, -34.804625776238204], [-58.439876136978306, -34.80443711472041], [-58.43993374920338, -34.80422503125738], [-58.44003731924501, -34.80395740519704], [-58.44017026891418, -34.8036961081969], [-58.440440433528394, -34.80324567463321], [-58.44249900008263, -34.80040413364917], [-58.44542735144735, -34.79651147573604], [-58.44629899470322, -34.795500951927465], [-58.44805190518672, -34.79355237681453], [-58.45099573314768, -34.789781840510045], [-58.45321556860635, -34.7868063424638], [-58.45595315827418, -34.78293292516963], [-58.458670145026154, -34.77886492727205], [-58.460103696933885, -34.77688724992784], [-58.460799288782475, -34.77618915896149], [-58.466364106589396, -34.76904951947847], [-58.47230647486609, -34.76128148282034], [-58.472585710898606, -34.76129435242134], [-58.47346501695521, -34.76022115496941], [-58.475443168976746, -34.75751770626194], [-58.476705807574255, -34.755762823164]]]] } }] },
+            'EVG 266 - 2 V': { "type": "FeatureCollection", "name": "EVG 266 - 2 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 2 - Desde Jujuy", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3574266, -34.7649861, 0.0], [-58.3592228, -34.7629121, 0.0], [-58.3606269, -34.7609124, 0.0], [-58.3620661, -34.7616069, 0.0], [-58.3689274, -34.752092, 0.0], [-58.3754063, -34.7554395, 0.0], [-58.3872636, -34.7616015, 0.0], [-58.3874889, -34.7611784, 0.0], [-58.3876015, -34.7610506, 0.0], [-58.3878322, -34.7610286, 0.0], [-58.3960424, -34.7599918, 0.0]] } }] },
+            'EVG 266 - 7:8 I': { "type": "FeatureCollection", "name": "EVG 266 - 7:8 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 7/8 - Desde Estacion Banfield", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3952726, -34.7449686, 0.0], [-58.3952391, -34.7450722, 0.0], [-58.395172, -34.745178, 0.0], [-58.3951251, -34.7452188, 0.0], [-58.3950433, -34.7452386, 0.0], [-58.3945766, -34.7431228, 0.0], [-58.3933588, -34.7432771, 0.0], [-58.3937773, -34.745534, 0.0], [-58.3942517, -34.7481016, 0.0], [-58.3946916, -34.7504443, 0.0], [-58.3952951, -34.7539857, 0.0], [-58.3959281, -34.7575557, 0.0], [-58.3965028, -34.7611347, 0.0], [-58.3968092, -34.7648129, 0.0], [-58.3938364, -34.7651283, 0.0], [-58.3936972, -34.7651737, 0.0], [-58.3901015, -34.769777, 0.0], [-58.3785214, -34.7638164, 0.0], [-58.37353, -34.7616356, 0.0], [-58.3784736, -34.7607717, 0.0], [-58.3713113, -34.7571206, 0.0], [-58.3701642, -34.7565343, 0.0], [-58.3688209, -34.7585871, 0.0], [-58.3689282, -34.7593584, 0.0], [-58.3681664, -34.7603963, 0.0], [-58.3690998, -34.760837, 0.0], [-58.369529, -34.7622472, 0.0], [-58.3683434, -34.7636442, 0.0], [-58.3664981, -34.7628047, 0.0], [-58.3659321, -34.7636464, 0.0], [-58.3624493, -34.7619222, 0.0], [-58.3594859, -34.7660403, 0.0]] } }] },
+            'EVG 266 - 5 I': { "type": "FeatureCollection", "name": "EVG 266 - 5 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 5 - Desde Estacion Lomas", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3969207, -34.7606065, 0.0], [-58.3969905, -34.7606682, 0.0], [-58.3970146, -34.7607938, 0.0], [-58.3970481, -34.7610042, 0.0], [-58.3970079, -34.7611276, 0.0], [-58.3969194, -34.7611739, 0.0], [-58.3922923, -34.7619157, 0.0], [-58.3909572, -34.762069, 0.0], [-58.3901759, -34.7584719, 0.0], [-58.3885451, -34.7586482, 0.0], [-58.3707942, -34.7493882, 0.0], [-58.3701711, -34.7528416, 0.0], [-58.3471775, -34.7409579, 0.0], [-58.345666, -34.7451466, 0.0], [-58.3526746, -34.7485605, 0.0], [-58.3527895, -34.7486204, 0.0], [-58.3486055, -34.7542058, 0.0], [-58.3481576, -34.7547369, 0.0], [-58.3480557, -34.7548404, 0.0], [-58.3421267, -34.7517055, 0.0], [-58.3402759, -34.7507634, 0.0], [-58.3394391, -34.7505298, 0.0]] } }] },
+            'EVG 266 - 4 V': { "type": "FeatureCollection", "name": "EVG 266 - 4 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 4 - Desde Riglos", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3750719, -34.7786535, 0.0], [-58.3758068, -34.7776665, 0.0], [-58.3701594, -34.774809, 0.0], [-58.3750916, -34.7682898, 0.0], [-58.3751913, -34.7681657, 0.0], [-58.3775945, -34.7694745, 0.0], [-58.379754, -34.7661173, 0.0], [-58.383949, -34.759866, 0.0], [-58.3872548, -34.7616079, 0.0], [-58.3875056, -34.7611727, 0.0], [-58.3875512, -34.7611176, 0.0], [-58.3876303, -34.7610735, 0.0], [-58.3960531, -34.7599996, 0.0]] } }] },
+            'EVG 266 - 2 I': { "type": "FeatureCollection", "name": "EVG 266 - 2 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 2 - Desde Balcarce", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3964902, -34.7612621, 0.0], [-58.3886609, -34.7623573, 0.0], [-58.3884718, -34.7623826, 0.0], [-58.3775498, -34.7566809, 0.0], [-58.3701226, -34.7528238, 0.0], [-58.3689485, -34.7522157, 0.0], [-58.3621638, -34.7616472, 0.0], [-58.3625367, -34.7618345, 0.0], [-58.359467, -34.7660371, 0.0]] } }] },
+            'EVG 266 - 7:8 V': { "type": "FeatureCollection", "name": "EVG 266 - 7:8 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 7/8 - Desde Jujuy", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3574431, -34.765021, 0.0], [-58.3579581, -34.7643203, 0.0], [-58.359212, -34.7629123, 0.0], [-58.3606372, -34.7609213, 0.0], [-58.3686626, -34.7648536, 0.0], [-58.3687217, -34.7647611, 0.0], [-58.3683891, -34.7640604, 0.0], [-58.3682163, -34.7636253, 0.0], [-58.3694099, -34.7622415, 0.0], [-58.3684142, -34.7569441, 0.0], [-58.3683605, -34.7565122, 0.0], [-58.3763896, -34.7606297, 0.0], [-58.37652, -34.760695, 0.0], [-58.3754766, -34.7621317, 0.0], [-58.3898735, -34.7695645, 0.0], [-58.393583, -34.7651093, 0.0], [-58.3941463, -34.7649418, 0.0], [-58.3965134, -34.7647176, 0.0], [-58.3961789, -34.760928, 0.0], [-58.3944408, -34.7513112, 0.0], [-58.3934323, -34.7457619, 0.0], [-58.3932791, -34.7443888, 0.0], [-58.39482, -34.7441707, 0.0], [-58.3947596, -34.7439095, 0.0], [-58.3949789, -34.7439273, 0.0], [-58.3950647, -34.7439956, 0.0], [-58.3952525, -34.7449587, 0.0]] } }] },
+            'EVG 266 - 4 I': { "type": "FeatureCollection", "name": "EVG 266 - 4 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 4 - Desde Estacion Lomas", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3966415, -34.7612145, 0.0], [-58.3885098, -34.7623877, 0.0], [-58.3851607, -34.7606205, 0.0], [-58.3839148, -34.7624604, 0.0], [-58.3828205, -34.7618523, 0.0], [-58.3786631, -34.7681012, 0.0], [-58.3764315, -34.7669158, 0.0], [-58.3751574, -34.7683766, 0.0], [-58.3744708, -34.7693241, 0.0], [-58.3738269, -34.7701005, 0.0], [-58.3702987, -34.7748649, 0.0], [-58.3747136, -34.7770063, 0.0], [-58.375993, -34.777621, 0.0], [-58.374668, -34.7793768, 0.0]] } }] },
+            'EVG 266 - 5 V': { "type": "FeatureCollection", "name": "EVG 266 - 5 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 5 - Desde Eva Peron", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3395367, -34.7504187, 0.0], [-58.3404917, -34.7506642, 0.0], [-58.3423478, -34.7516603, 0.0], [-58.3460546, -34.7536305, 0.0], [-58.3473166, -34.7543093, 0.0], [-58.3480086, -34.7546861, 0.0], [-58.3484056, -34.7542718, 0.0], [-58.3486684, -34.7538839, 0.0], [-58.3526062, -34.7486317, 0.0], [-58.3505341, -34.7475531, 0.0], [-58.3476176, -34.7460664, 0.0], [-58.347564, -34.7461612, 0.0], [-58.3455091, -34.7451968, 0.0], [-58.3459436, -34.7440331, 0.0], [-58.3471023, -34.7408108, 0.0], [-58.3638065, -34.7493756, 0.0], [-58.3700753, -34.7526771, 0.0], [-58.3707023, -34.7492083, 0.0], [-58.3880937, -34.75827, 0.0], [-58.3886377, -34.7585601, 0.0], [-58.389197, -34.7608529, 0.0], [-58.3960695, -34.7599821, 0.0]] } }] },
+            'EVG 564 - 9 I': { "type": "FeatureCollection", "name": "EVG 564 - 9 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "564 RAMAL 9 - Desde Estacion Lomas" }, "geometry": { "type": "LineString", "coordinates": [[-58.3965088, -34.7615837, 0.0], [-58.396659, -34.7629091, 0.0], [-58.3968092, -34.7648129, 0.0], [-58.3943791, -34.7650553, 0.0], [-58.3937032, -34.7651875, 0.0], [-58.390093, -34.7698454, 0.0], [-58.3850021, -34.7672058, 0.0], [-58.3831782, -34.766298, 0.0], [-58.3817728, -34.7655136, 0.0], [-58.3796377, -34.7644163, 0.0], [-58.377095, -34.7630942, 0.0], [-58.3769823, -34.7630501, 0.0], [-58.3784736, -34.7607717, 0.0], [-58.3768321, -34.7599343, 0.0], [-58.3713176, -34.7571106, 0.0], [-58.3701642, -34.7565343, 0.0], [-58.3697619, -34.7572196, 0.0], [-58.3688446, -34.7585815, 0.0], [-58.368926, -34.7592885, 0.0], [-58.3675626, -34.7586647, 0.0], [-58.3651862, -34.757488, 0.0], [-58.3643332, -34.7586383, 0.0], [-58.3618361, -34.7573888, 0.0], [-58.3607954, -34.7568952, 0.0], [-58.3600873, -34.7566176, 0.0], [-58.3597815, -34.7562562, 0.0], [-58.3593845, -34.7553482, 0.0], [-58.3583117, -34.7564941, 0.0], [-58.3576787, -34.756135, 0.0], [-58.3546585, -34.7546629, 0.0], [-58.350037, -34.7522807, 0.0], [-58.3498868, -34.7522278, 0.0], [-58.3510348, -34.7506983, 0.0], [-58.3526062, -34.7486317, 0.0], [-58.3517827, -34.7482107, 0.0], [-58.3511229, -34.7478229, 0.0], [-58.3491381, -34.7469149, 0.0], [-58.3480437, -34.7463154, 0.0], [-58.3476228, -34.7460883, 0.0], [-58.3475906, -34.74615, 0.0], [-58.3459782, -34.7454255, 0.0], [-58.3456295, -34.7452492, 0.0], [-58.3455213, -34.7451826, 0.0], [-58.3453751, -34.7451572, 0.0], [-58.344895, -34.745177, 0.0], [-58.3448896, -34.7452476, 0.0], [-58.3439428, -34.7450867, 0.0], [-58.3433876, -34.7466779, 0.0], [-58.3426197, -34.7478242, 0.0], [-58.3418633, -34.7499531, 0.0], [-58.3418204, -34.7500391, 0.0], [-58.3403183, -34.7492192, 0.0], [-58.3376334, -34.7531861, 0.0], [-58.3382289, -34.7534968, 0.0], [-58.3389504, -34.7538428, 0.0]] } }] },
+            'EVG 266 - 1 I': { "type": "FeatureCollection", "name": "EVG 266 - 1 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 1 - Desde Estacion Lomas", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3962477, -34.7612728, 0.0], [-58.3895314, -34.7622093, 0.0], [-58.3896495, -34.7629849, 0.0], [-58.3878063, -34.7656558, 0.0], [-58.3800011, -34.7615551, 0.0], [-58.3763506, -34.7670593, 0.0], [-58.3751934, -34.7683267, 0.0], [-58.339423, -34.7505521, 0.0]] } }] },
+            'EVG 564 - 3 V': { "type": "FeatureCollection", "name": "EVG 564 - 3 Desde Estacion Temperley", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "564 RAMAL 3 - Desde Estacion Temperley" }, "geometry": { "type": "LineString", "coordinates": [[-58.3955304, -34.7760052, 0.0], [-58.3927658, -34.7757612, 0.0], [-58.3914167, -34.775, 0.0], [-58.387076, -34.7802702, 0.0], [-58.387291, -34.7804152, 0.0], [-58.3860781, -34.781971, 0.0], [-58.3773586, -34.7776733, 0.0], [-58.3770287, -34.7781624, 0.0], [-58.3767937, -34.7782141, 0.0], [-58.3613764, -34.7703708, 0.0], [-58.3595739, -34.7699301, 0.0], [-58.3563768, -34.7681498, 0.0], [-58.3409272, -34.7601117, 0.0], [-58.3424507, -34.7584722, 0.0], [-58.3458625, -34.7602527, 0.0], [-58.3468925, -34.7586485, 0.0], [-58.356968, -34.7637993, 0.0], [-58.3578251, -34.7620772, 0.0], [-58.3670278, -34.7666469, 0.0], [-58.3685278, -34.76475, 0.0], [-58.3691171, -34.7640291, 0.0], [-58.3716599, -34.7653688, 0.0], [-58.3775285, -34.75644, 0.0], [-58.3871845, -34.7614819, 0.0], [-58.3874205, -34.7609971, 0.0], [-58.3959929, -34.7599129, 0.0]] } }] },
+            'EVG 266 - 6 V': { "type": "FeatureCollection", "name": "EVG 266 - 6 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 6 - Desde Estacion Lomas", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3965513, -34.7616089, 0.0], [-58.3967869, -34.7643241, 0.0], [-58.3968092, -34.7648129, 0.0], [-58.3938364, -34.7651283, 0.0], [-58.3937032, -34.7651875, 0.0], [-58.3916182, -34.7640685, 0.0], [-58.3896173, -34.7666773, 0.0], [-58.3891882, -34.766435, 0.0], [-58.3858569, -34.7709694, 0.0], [-58.3860929, -34.771084, 0.0], [-58.3809833, -34.7775834, 0.0], [-58.3813029, -34.7776879, 0.0], [-58.3795, -34.7801944, 0.0]] } }] },
+            'EVG 564 - 9 V': { "type": "FeatureCollection", "name": "EVG 564 - 9 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "564 RAMAL 9 - Hacia Estacion Lomas" }, "geometry": { "type": "LineString", "coordinates": [[-58.3395367, -34.7504187, 0.0], [-58.3404165, -34.7506722, 0.0], [-58.3412748, -34.7495923, 0.0], [-58.3417817, -34.7498678, 0.0], [-58.3424898, -34.7476573, 0.0], [-58.3432301, -34.7464143, 0.0], [-58.3438417, -34.7448804, 0.0], [-58.3447697, -34.7451052, 0.0], [-58.3448341, -34.745039, 0.0], [-58.3455556, -34.7450897, 0.0], [-58.347932, -34.7460617, 0.0], [-58.3491659, -34.7466788, 0.0], [-58.3526742, -34.74853, 0.0], [-58.3527895, -34.7486204, 0.0], [-58.3500912, -34.7521928, 0.0], [-58.3557949, -34.7550698, 0.0], [-58.3582598, -34.7563127, 0.0], [-58.3594167, -34.7550833, 0.0], [-58.3599872, -34.7562973, 0.0], [-58.3601642, -34.7565176, 0.0], [-58.3642948, -34.75847, 0.0], [-58.3651156, -34.7573153, 0.0], [-58.3687956, -34.7591289, 0.0], [-58.3687124, -34.7585582, 0.0], [-58.3696803, -34.7571472, 0.0], [-58.3763751, -34.7606069, 0.0], [-58.37652, -34.760695, 0.0], [-58.3754766, -34.7621317, 0.0], [-58.3823994, -34.7656264, 0.0], [-58.3900598, -34.7696013, 0.0], [-58.3935359, -34.7650888, 0.0], [-58.3913204, -34.7639077, 0.0], [-58.3906284, -34.7606664, 0.0], [-58.3959863, -34.7600076, 0.0]] } }] },
+            'EVG 266 - 1 V': { "type": "FeatureCollection", "name": "EVG 266 - 1 V", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 1 - Desde Eva Peron", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3423153, -34.7516155, 0.0], [-58.3461107, -34.7536033, 0.0], [-58.3483583, -34.7548021, 0.0], [-58.3564329, -34.7588402, 0.0], [-58.3751751, -34.7681687, 0.0], [-58.3761836, -34.7670538, 0.0], [-58.3768488, -34.766005, 0.0], [-58.3799548, -34.7613953, 0.0], [-58.3896107, -34.766503, 0.0], [-58.3915038, -34.7639866, 0.0], [-58.3912785, -34.7639205, 0.0], [-58.3906284, -34.7606664, 0.0], [-58.3960481, -34.759976, 0.0]] } }] },
+            'EVG 266 - 6 I': { "type": "FeatureCollection", "name": "EVG 266 - 6 I", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "266 RAMAL 6 - Desde Achupallas", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.3784827, -34.7813637, 0.0], [-58.3810952, -34.7777464, 0.0], [-58.3808001, -34.7776318, 0.0], [-58.3858695, -34.77115, 0.0], [-58.3856549, -34.7709914, 0.0], [-58.3891418, -34.7662719, 0.0], [-58.3895656, -34.7665142, 0.0], [-58.3915325, -34.7639963, 0.0], [-58.3913019, -34.7638817, 0.0], [-58.3906622, -34.7606767, 0.0], [-58.3960559, -34.7599935, 0.0]] } }] },
+            'EVG 564 - 3 I': { "type": "FeatureCollection", "name": "EVG 564 - 3 Desde Estacion Lomas", "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } }, "features": [{ "type": "Feature", "properties": { "Name": "564 RAMAL 3 - Desde Estacion Lomas" }, "geometry": { "type": "LineString", "coordinates": [[-58.3966734, -34.7611729, 0.0], [-58.3894368, -34.7622262, 0.0], [-58.3885356, -34.7624024, 0.0], [-58.3776098, -34.75675, 0.0], [-58.3742587, -34.7616992, 0.0], [-58.3723003, -34.7648315, 0.0], [-58.371045, -34.7641616, 0.0], [-58.3696824, -34.7635226, 0.0], [-58.3687007, -34.7649813, 0.0], [-58.368572, -34.7649505, 0.0], [-58.3671316, -34.7668608, 0.0], [-58.3660346, -34.7662968, 0.0], [-58.3639368, -34.7652368, 0.0], [-58.3628076, -34.7646992, 0.0], [-58.3620861, -34.7656467, 0.0], [-58.3612519, -34.7651928, 0.0], [-58.3592725, -34.7642277, 0.0], [-58.3573823, -34.763351, 0.0], [-58.3570483, -34.7640098, 0.0], [-58.3547738, -34.7628948, 0.0], [-58.3536637, -34.7623036, 0.0], [-58.3481277, -34.7595889, 0.0], [-58.3469314, -34.7589939, 0.0], [-58.3458342, -34.7604212, 0.0], [-58.3425196, -34.758619, 0.0], [-58.341318, -34.760135, 0.0], [-58.3582698, -34.7687709, 0.0], [-58.359965, -34.769758, 0.0], [-58.3616802, -34.7701703, 0.0], [-58.3678306, -34.7733642, 0.0], [-58.3767209, -34.778, 0.0], [-58.3771509, -34.7758179, 0.0], [-58.389696, -34.7813923, 0.0], [-58.3899451, -34.7816472, 0.0], [-58.3896876, -34.7830175, 0.0], [-58.3916379, -34.7840711, 0.0], [-58.3954501, -34.7795134, 0.0], [-58.3956183, -34.779295, 0.0], [-58.3953716, -34.7790703, 0.0], [-58.3952475, -34.7789265, 0.0], [-58.3955265, -34.7760833, 0.0]] } }] },
+            'Autobuses 553 - I a Lomas': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 553 - La Noria a Lomas",
+                "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                "features": [
+                    { "type": "Feature", "properties": { "Name": "553 - La Noria a Lomas", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.454743, -34.707282, 0.0], [-58.454112, -34.707641, 0.0], [-58.454126, -34.707693, 0.0], [-58.454184, -34.707763, 0.0], [-58.454234, -34.707795, 0.0], [-58.454292, -34.707832, 0.0], [-58.454539, -34.707871, 0.0], [-58.456191, -34.707269, 0.0], [-58.458447, -34.706259, 0.0], [-58.458736, -34.706147, 0.0], [-58.458924, -34.706182, 0.0], [-58.459112, -34.706253, 0.0], [-58.459486, -34.706536, 0.0], [-58.459575, -34.706644, 0.0], [-58.459622, -34.706886, 0.0], [-58.457706, -34.709247, 0.0], [-58.466391, -34.714091, 0.0], [-58.46537, -34.715356, 0.0], [-58.466399, -34.715961, 0.0], [-58.462449, -34.720914, 0.0], [-58.464833, -34.722245, 0.0], [-58.462915, -34.724638, 0.0], [-58.465235, -34.725965, 0.0], [-58.465652, -34.726169, 0.0], [-58.465802, -34.726264, 0.0], [-58.465872, -34.726325, 0.0], [-58.465911, -34.726367, 0.0], [-58.465963, -34.726457, 0.0], [-58.46631, -34.726972, 0.0], [-58.466469, -34.72723, 0.0], [-58.466922, -34.727864, 0.0], [-58.466991, -34.728105, 0.0], [-58.467032, -34.728295, 0.0], [-58.466974, -34.728467, 0.0], [-58.466831, -34.72874, 0.0], [-58.464197, -34.732235, 0.0], [-58.464183, -34.732299, 0.0], [-58.464233, -34.732323, 0.0], [-58.464261, -34.732378, 0.0], [-58.46426, -34.732434, 0.0], [-58.46423, -34.732483, 0.0], [-58.464193, -34.732514, 0.0], [-58.46412, -34.732549, 0.0], [-58.464092, -34.732677, 0.0], [-58.454809, -34.745017, 0.0], [-58.453398, -34.744291, 0.0], [-58.446329, -34.753347, 0.0], [-58.445027, -34.752708, 0.0], [-58.444824, -34.752549, 0.0], [-58.44275, -34.750425, 0.0], [-58.439741, -34.74871, 0.0], [-58.432762, -34.744578, 0.0], [-58.432177, -34.745278, 0.0], [-58.424634, -34.7463, 0.0], [-58.424043, -34.746384, 0.0], [-58.42382, -34.748785, 0.0], [-58.419609, -34.749456, 0.0], [-58.417926, -34.749699, 0.0], [-58.417004, -34.749818, 0.0], [-58.414987, -34.750122, 0.0], [-58.412374, -34.75051, 0.0], [-58.407482, -34.751216, 0.0], [-58.406798, -34.751306, 0.0], [-58.407539, -34.75473, 0.0], [-58.40779, -34.756002, 0.0], [-58.401874, -34.756833, 0.0], [-58.402129, -34.757929, 0.0], [-58.403554, -34.757711, 0.0], [-58.404341, -34.761437, 0.0], [-58.397929, -34.762269, 0.0], [-58.397756, -34.76221, 0.0], [-58.397723, -34.76164, 0.0], [-58.397766, -34.761448, 0.0], [-58.397786, -34.761387, 0.0], [-58.397792, -34.761277, 0.0], [-58.397628, -34.759936, 0.0]] } }
+                ]
+            },
+            'Autobuses 553 - V a La Noria': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 553 - Lomas a La Noria",
+                "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                "features": [
+                    { "type": "Feature", "properties": { "Name": "553 - Lomas a La Noria", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [[-58.397638, -34.759916, 0.0], [-58.397631, -34.759832, 0.0], [-58.398021, -34.759752, 0.0], [-58.405122, -34.75871, 0.0], [-58.403879, -34.752816, 0.0], [-58.419409, -34.750496, 0.0], [-58.419378, -34.749368, 0.0], [-58.423708, -34.748696, 0.0], [-58.423968, -34.7463, 0.0], [-58.432129, -34.745209, 0.0], [-58.43278, -34.744486, 0.0], [-58.438223, -34.747628, 0.0], [-58.44038, -34.748832, 0.0], [-58.441404, -34.749469, 0.0], [-58.442949, -34.750355, 0.0], [-58.444902, -34.752421, 0.0], [-58.445147, -34.752618, 0.0], [-58.446279, -34.753189, 0.0], [-58.453334, -34.744105, 0.0], [-58.454754, -34.744885, 0.0], [-58.466722, -34.72854, 0.0], [-58.466784, -34.727939, 0.0], [-58.466307, -34.727184, 0.0], [-58.465789, -34.72639, 0.0], [-58.46543, -34.726168, 0.0], [-58.462773, -34.724663, 0.0], [-58.464626, -34.722255, 0.0], [-58.462304, -34.720956, 0.0], [-58.467244, -34.714712, 0.0], [-58.456729, -34.708794, 0.0], [-58.45632, -34.709016, 0.0], [-58.455975, -34.709379, 0.0], [-58.45527, -34.709274, 0.0], [-58.454521, -34.708884, 0.0], [-58.454168, -34.708637, 0.0], [-58.454263, -34.708048, 0.0], [-58.454526, -34.707856, 0.0], [-58.45589, -34.707364, 0.0], [-58.455812, -34.707196, 0.0], [-58.455476, -34.706822, 0.0], [-58.454748, -34.707248, 0.0]] } }
+                ]
+            }
+       ,
+            'Autobuses 552A - I a Universidad': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 552A - I a Universidad",
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                },
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "Name": "552 A - Banfield al Cruce",
+                            "nombre": ""
+                        },
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [
+                                [
+                                    -58.396035,
+                                    -34.743244,
+                                    0.0
+                                ],
+                                [
+                                    -58.395999,
+                                    -34.742857,
+                                    0.0
+                                ],
+                                [
+                                    -58.39897,
+                                    -34.7425,
+                                    0.0
+                                ],
+                                [
+                                    -58.399955,
+                                    -34.74732,
+                                    0.0
+                                ],
+                                [
+                                    -58.4004,
+                                    -34.749662,
+                                    0.0
+                                ],
+                                [
+                                    -58.417651,
+                                    -34.74715,
+                                    0.0
+                                ],
+                                [
+                                    -58.43212,
+                                    -34.745192,
+                                    0.0
+                                ],
+                                [
+                                    -58.432785,
+                                    -34.744443,
+                                    0.0
+                                ],
+                                [
+                                    -58.438219,
+                                    -34.747651,
+                                    0.0
+                                ],
+                                [
+                                    -58.440459,
+                                    -34.748844,
+                                    0.0
+                                ],
+                                [
+                                    -58.442894,
+                                    -34.750316,
+                                    0.0
+                                ],
+                                [
+                                    -58.44469,
+                                    -34.752183,
+                                    0.0
+                                ],
+                                [
+                                    -58.445098,
+                                    -34.752606,
+                                    0.0
+                                ],
+                                [
+                                    -58.446256,
+                                    -34.753166,
+                                    0.0
+                                ],
+                                [
+                                    -58.449735,
+                                    -34.748835,
+                                    0.0
+                                ],
+                                [
+                                    -58.453353,
+                                    -34.750696,
+                                    0.0
+                                ],
+                                [
+                                    -58.445812,
+                                    -34.760689,
+                                    0.0
+                                ],
+                                [
+                                    -58.448097,
+                                    -34.761828,
+                                    0.0
+                                ],
+                                [
+                                    -58.441825,
+                                    -34.770096,
+                                    0.0
+                                ],
+                                [
+                                    -58.445464,
+                                    -34.771941,
+                                    0.0
+                                ],
+                                [
+                                    -58.457557,
+                                    -34.778268,
+                                    0.0
+                                ],
+                                [
+                                    -58.45782,
+                                    -34.778405,
+                                    0.0
+                                ],
+                                [
+                                    -58.458037,
+                                    -34.778407,
+                                    0.0
+                                ],
+                                [
+                                    -58.458292,
+                                    -34.778341,
+                                    0.0
+                                ],
+                                [
+                                    -58.458453,
+                                    -34.778268,
+                                    0.0
+                                ],
+                                [
+                                    -58.458684,
+                                    -34.777894,
+                                    0.0
+                                ],
+                                [
+                                    -58.459135,
+                                    -34.777318,
+                                    0.0
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            'Autobuses 552A - V a Banfield': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 552A - V a Banfield",
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                },
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "Name": "552 A - Cruce a Banfield",
+                            "nombre": ""
+                        },
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [
+                                [
+                                    -58.457576,
+                                    -34.779533,
+                                    0.0
+                                ],
+                                [
+                                    -58.458019,
+                                    -34.77895,
+                                    0.0
+                                ],
+                                [
+                                    -58.45771,
+                                    -34.778656,
+                                    0.0
+                                ],
+                                [
+                                    -58.457431,
+                                    -34.778502,
+                                    0.0
+                                ],
+                                [
+                                    -58.447191,
+                                    -34.773305,
+                                    0.0
+                                ],
+                                [
+                                    -58.443838,
+                                    -34.771484,
+                                    0.0
+                                ],
+                                [
+                                    -58.438238,
+                                    -34.768467,
+                                    0.0
+                                ],
+                                [
+                                    -58.438792,
+                                    -34.767775,
+                                    0.0
+                                ],
+                                [
+                                    -58.442166,
+                                    -34.76948,
+                                    0.0
+                                ],
+                                [
+                                    -58.447919,
+                                    -34.761828,
+                                    0.0
+                                ],
+                                [
+                                    -58.445631,
+                                    -34.760714,
+                                    0.0
+                                ],
+                                [
+                                    -58.449812,
+                                    -34.755149,
+                                    0.0
+                                ],
+                                [
+                                    -58.446342,
+                                    -34.753384,
+                                    0.0
+                                ],
+                                [
+                                    -58.445014,
+                                    -34.752679,
+                                    0.0
+                                ],
+                                [
+                                    -58.444725,
+                                    -34.752437,
+                                    0.0
+                                ],
+                                [
+                                    -58.443148,
+                                    -34.750771,
+                                    0.0
+                                ],
+                                [
+                                    -58.442793,
+                                    -34.750415,
+                                    0.0
+                                ],
+                                [
+                                    -58.439555,
+                                    -34.74857,
+                                    0.0
+                                ],
+                                [
+                                    -58.438,
+                                    -34.747724,
+                                    0.0
+                                ],
+                                [
+                                    -58.432778,
+                                    -34.744586,
+                                    0.0
+                                ],
+                                [
+                                    -58.432182,
+                                    -34.745283,
+                                    0.0
+                                ],
+                                [
+                                    -58.426982,
+                                    -34.746011,
+                                    0.0
+                                ],
+                                [
+                                    -58.425796,
+                                    -34.746156,
+                                    0.0
+                                ],
+                                [
+                                    -58.400426,
+                                    -34.74976,
+                                    0.0
+                                ],
+                                [
+                                    -58.397412,
+                                    -34.750154,
+                                    0.0
+                                ],
+                                [
+                                    -58.396519,
+                                    -34.745666,
+                                    0.0
+                                ],
+                                [
+                                    -58.396054,
+                                    -34.74326,
+                                    0.0
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            'Autobuses 552B - I a Banfield': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 552B - I a Banfield",
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                },
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "Name": "552 B - Restelli a Banfield",
+                            "nombre": ""
+                        },
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [
+                                [
+                                    -58.484676,
+                                    -34.754317,
+                                    0.0
+                                ],
+                                [
+                                    -58.478329,
+                                    -34.751077,
+                                    0.0
+                                ],
+                                [
+                                    -58.474024,
+                                    -34.756868,
+                                    0.0
+                                ],
+                                [
+                                    -58.473387,
+                                    -34.75671,
+                                    0.0
+                                ],
+                                [
+                                    -58.473254,
+                                    -34.756699,
+                                    0.0
+                                ],
+                                [
+                                    -58.473105,
+                                    -34.756718,
+                                    0.0
+                                ],
+                                [
+                                    -58.472958,
+                                    -34.756753,
+                                    0.0
+                                ],
+                                [
+                                    -58.471597,
+                                    -34.75699,
+                                    0.0
+                                ],
+                                [
+                                    -58.470695,
+                                    -34.753321,
+                                    0.0
+                                ],
+                                [
+                                    -58.470703,
+                                    -34.753261,
+                                    0.0
+                                ],
+                                [
+                                    -58.47093,
+                                    -34.752955,
+                                    0.0
+                                ],
+                                [
+                                    -58.470942,
+                                    -34.752904,
+                                    0.0
+                                ],
+                                [
+                                    -58.47094,
+                                    -34.752827,
+                                    0.0
+                                ],
+                                [
+                                    -58.470896,
+                                    -34.75273,
+                                    0.0
+                                ],
+                                [
+                                    -58.470657,
+                                    -34.752494,
+                                    0.0
+                                ],
+                                [
+                                    -58.470466,
+                                    -34.75226,
+                                    0.0
+                                ],
+                                [
+                                    -58.470421,
+                                    -34.752164,
+                                    0.0
+                                ],
+                                [
+                                    -58.470359,
+                                    -34.752013,
+                                    0.0
+                                ],
+                                [
+                                    -58.470001,
+                                    -34.750553,
+                                    0.0
+                                ],
+                                [
+                                    -58.472076,
+                                    -34.747726,
+                                    0.0
+                                ],
+                                [
+                                    -58.464671,
+                                    -34.743855,
+                                    0.0
+                                ],
+                                [
+                                    -58.458165,
+                                    -34.740587,
+                                    0.0
+                                ],
+                                [
+                                    -58.451363,
+                                    -34.749649,
+                                    0.0
+                                ],
+                                [
+                                    -58.451309,
+                                    -34.74972,
+                                    0.0
+                                ],
+                                [
+                                    -58.449779,
+                                    -34.748959,
+                                    0.0
+                                ],
+                                [
+                                    -58.446308,
+                                    -34.753333,
+                                    0.0
+                                ],
+                                [
+                                    -58.445032,
+                                    -34.75267,
+                                    0.0
+                                ],
+                                [
+                                    -58.444985,
+                                    -34.752641,
+                                    0.0
+                                ],
+                                [
+                                    -58.444785,
+                                    -34.752468,
+                                    0.0
+                                ],
+                                [
+                                    -58.442964,
+                                    -34.750531,
+                                    0.0
+                                ],
+                                [
+                                    -58.442794,
+                                    -34.750403,
+                                    0.0
+                                ],
+                                [
+                                    -58.440517,
+                                    -34.749079,
+                                    0.0
+                                ],
+                                [
+                                    -58.440251,
+                                    -34.748898,
+                                    0.0
+                                ],
+                                [
+                                    -58.43942,
+                                    -34.748444,
+                                    0.0
+                                ],
+                                [
+                                    -58.432775,
+                                    -34.744572,
+                                    0.0
+                                ],
+                                [
+                                    -58.432169,
+                                    -34.745272,
+                                    0.0
+                                ],
+                                [
+                                    -58.429578,
+                                    -34.745617,
+                                    0.0
+                                ],
+                                [
+                                    -58.397424,
+                                    -34.750143,
+                                    0.0
+                                ],
+                                [
+                                    -58.396038,
+                                    -34.743259,
+                                    0.0
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            'Autobuses 552B - V a La Noria': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 552B - V a La Noria",
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                },
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "Name": "552 B - Banfield a Restelli",
+                            "nombre": ""
+                        },
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [
+                                [
+                                    -58.396051,
+                                    -34.743289,
+                                    0.0
+                                ],
+                                [
+                                    -58.395994,
+                                    -34.742859,
+                                    0.0
+                                ],
+                                [
+                                    -58.398984,
+                                    -34.742495,
+                                    0.0
+                                ],
+                                [
+                                    -58.400414,
+                                    -34.74964,
+                                    0.0
+                                ],
+                                [
+                                    -58.424255,
+                                    -34.746209,
+                                    0.0
+                                ],
+                                [
+                                    -58.432122,
+                                    -34.745203,
+                                    0.0
+                                ],
+                                [
+                                    -58.432778,
+                                    -34.744467,
+                                    0.0
+                                ],
+                                [
+                                    -58.436519,
+                                    -34.746621,
+                                    0.0
+                                ],
+                                [
+                                    -58.43823,
+                                    -34.747645,
+                                    0.0
+                                ],
+                                [
+                                    -58.440349,
+                                    -34.748771,
+                                    0.0
+                                ],
+                                [
+                                    -58.442876,
+                                    -34.750322,
+                                    0.0
+                                ],
+                                [
+                                    -58.44494,
+                                    -34.75247,
+                                    0.0
+                                ],
+                                [
+                                    -58.445133,
+                                    -34.752617,
+                                    0.0
+                                ],
+                                [
+                                    -58.446257,
+                                    -34.753181,
+                                    0.0
+                                ],
+                                [
+                                    -58.449708,
+                                    -34.748824,
+                                    0.0
+                                ],
+                                [
+                                    -58.451276,
+                                    -34.749611,
+                                    0.0
+                                ],
+                                [
+                                    -58.458102,
+                                    -34.74044,
+                                    0.0
+                                ],
+                                [
+                                    -58.460221,
+                                    -34.741532,
+                                    0.0
+                                ],
+                                [
+                                    -58.464596,
+                                    -34.743635,
+                                    0.0
+                                ],
+                                [
+                                    -58.466639,
+                                    -34.744714,
+                                    0.0
+                                ],
+                                [
+                                    -58.472212,
+                                    -34.747716,
+                                    0.0
+                                ],
+                                [
+                                    -58.470059,
+                                    -34.750575,
+                                    0.0
+                                ],
+                                [
+                                    -58.470528,
+                                    -34.752203,
+                                    0.0
+                                ],
+                                [
+                                    -58.470992,
+                                    -34.752731,
+                                    0.0
+                                ],
+                                [
+                                    -58.471029,
+                                    -34.752871,
+                                    0.0
+                                ],
+                                [
+                                    -58.470985,
+                                    -34.753001,
+                                    0.0
+                                ],
+                                [
+                                    -58.470755,
+                                    -34.753316,
+                                    0.0
+                                ],
+                                [
+                                    -58.471655,
+                                    -34.756915,
+                                    0.0
+                                ],
+                                [
+                                    -58.473043,
+                                    -34.756675,
+                                    0.0
+                                ],
+                                [
+                                    -58.473327,
+                                    -34.756623,
+                                    0.0
+                                ],
+                                [
+                                    -58.473967,
+                                    -34.756798,
+                                    0.0
+                                ],
+                                [
+                                    -58.478333,
+                                    -34.750968,
+                                    0.0
+                                ],
+                                [
+                                    -58.482401,
+                                    -34.753023,
+                                    0.0
+                                ],
+                                [
+                                    -58.481883,
+                                    -34.753674,
+                                    0.0
+                                ],
+                                [
+                                    -58.484291,
+                                    -34.754889,
+                                    0.0
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            'Autobuses 552C - I a Ruta IV': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 552C - I a Ruta IV",
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                },
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "Name": "552 C - La Noria a Ruta 4",
+                            "nombre": ""
+                        },
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [
+                                [
+                                    -58.455074,
+                                    -34.706859,
+                                    0.0
+                                ],
+                                [
+                                    -58.455393,
+                                    -34.706681,
+                                    0.0
+                                ],
+                                [
+                                    -58.455849,
+                                    -34.70719,
+                                    0.0
+                                ],
+                                [
+                                    -58.455953,
+                                    -34.707367,
+                                    0.0
+                                ],
+                                [
+                                    -58.45864,
+                                    -34.706162,
+                                    0.0
+                                ],
+                                [
+                                    -58.45899,
+                                    -34.706205,
+                                    0.0
+                                ],
+                                [
+                                    -58.459463,
+                                    -34.70653,
+                                    0.0
+                                ],
+                                [
+                                    -58.459576,
+                                    -34.706619,
+                                    0.0
+                                ],
+                                [
+                                    -58.459628,
+                                    -34.706813,
+                                    0.0
+                                ],
+                                [
+                                    -58.459329,
+                                    -34.707271,
+                                    0.0
+                                ],
+                                [
+                                    -58.457694,
+                                    -34.709247,
+                                    0.0
+                                ],
+                                [
+                                    -58.466378,
+                                    -34.714092,
+                                    0.0
+                                ],
+                                [
+                                    -58.465351,
+                                    -34.715355,
+                                    0.0
+                                ],
+                                [
+                                    -58.466414,
+                                    -34.71597,
+                                    0.0
+                                ],
+                                [
+                                    -58.46244,
+                                    -34.720922,
+                                    0.0
+                                ],
+                                [
+                                    -58.464801,
+                                    -34.722245,
+                                    0.0
+                                ],
+                                [
+                                    -58.462894,
+                                    -34.724642,
+                                    0.0
+                                ],
+                                [
+                                    -58.465534,
+                                    -34.726084,
+                                    0.0
+                                ],
+                                [
+                                    -58.465775,
+                                    -34.726216,
+                                    0.0
+                                ],
+                                [
+                                    -58.465931,
+                                    -34.726366,
+                                    0.0
+                                ],
+                                [
+                                    -58.466274,
+                                    -34.726886,
+                                    0.0
+                                ],
+                                [
+                                    -58.466636,
+                                    -34.727415,
+                                    0.0
+                                ],
+                                [
+                                    -58.46694,
+                                    -34.727871,
+                                    0.0
+                                ],
+                                [
+                                    -58.466986,
+                                    -34.72802,
+                                    0.0
+                                ],
+                                [
+                                    -58.467017,
+                                    -34.728146,
+                                    0.0
+                                ],
+                                [
+                                    -58.467016,
+                                    -34.728278,
+                                    0.0
+                                ],
+                                [
+                                    -58.466989,
+                                    -34.728475,
+                                    0.0
+                                ],
+                                [
+                                    -58.466928,
+                                    -34.728627,
+                                    0.0
+                                ],
+                                [
+                                    -58.466691,
+                                    -34.728934,
+                                    0.0
+                                ],
+                                [
+                                    -58.465867,
+                                    -34.730049,
+                                    0.0
+                                ],
+                                [
+                                    -58.464218,
+                                    -34.73223,
+                                    0.0
+                                ],
+                                [
+                                    -58.464201,
+                                    -34.732288,
+                                    0.0
+                                ],
+                                [
+                                    -58.464271,
+                                    -34.732356,
+                                    0.0
+                                ],
+                                [
+                                    -58.46428,
+                                    -34.732458,
+                                    0.0
+                                ],
+                                [
+                                    -58.464217,
+                                    -34.73252,
+                                    0.0
+                                ],
+                                [
+                                    -58.464104,
+                                    -34.732609,
+                                    0.0
+                                ],
+                                [
+                                    -58.458223,
+                                    -34.740518,
+                                    0.0
+                                ],
+                                [
+                                    -58.46011,
+                                    -34.741494,
+                                    0.0
+                                ],
+                                [
+                                    -58.464307,
+                                    -34.743539,
+                                    0.0
+                                ],
+                                [
+                                    -58.464886,
+                                    -34.743774,
+                                    0.0
+                                ],
+                                [
+                                    -58.465149,
+                                    -34.743873,
+                                    0.0
+                                ],
+                                [
+                                    -58.472126,
+                                    -34.747642,
+                                    0.0
+                                ],
+                                [
+                                    -58.472235,
+                                    -34.747715,
+                                    0.0
+                                ],
+                                [
+                                    -58.470045,
+                                    -34.750572,
+                                    0.0
+                                ],
+                                [
+                                    -58.470468,
+                                    -34.752105,
+                                    0.0
+                                ],
+                                [
+                                    -58.470566,
+                                    -34.752293,
+                                    0.0
+                                ],
+                                [
+                                    -58.470864,
+                                    -34.752586,
+                                    0.0
+                                ],
+                                [
+                                    -58.471003,
+                                    -34.752798,
+                                    0.0
+                                ],
+                                [
+                                    -58.471011,
+                                    -34.752902,
+                                    0.0
+                                ],
+                                [
+                                    -58.471,
+                                    -34.752969,
+                                    0.0
+                                ],
+                                [
+                                    -58.47075,
+                                    -34.753321,
+                                    0.0
+                                ],
+                                [
+                                    -58.471668,
+                                    -34.756925,
+                                    0.0
+                                ],
+                                [
+                                    -58.473122,
+                                    -34.756665,
+                                    0.0
+                                ],
+                                [
+                                    -58.473303,
+                                    -34.756649,
+                                    0.0
+                                ],
+                                [
+                                    -58.473466,
+                                    -34.756676,
+                                    0.0
+                                ],
+                                [
+                                    -58.473974,
+                                    -34.756808,
+                                    0.0
+                                ],
+                                [
+                                    -58.47833,
+                                    -34.750941,
+                                    0.0
+                                ],
+                                [
+                                    -58.482372,
+                                    -34.753036,
+                                    0.0
+                                ],
+                                [
+                                    -58.481894,
+                                    -34.753668,
+                                    0.0
+                                ],
+                                [
+                                    -58.484296,
+                                    -34.754878,
+                                    0.0
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            'Autobuses 552C - V a La Noria': {
+                "type": "FeatureCollection",
+                "name": "Autobuses 552C - V a La Noria",
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                },
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "Name": "552 C - Ruta 4 a La Noria",
+                            "nombre": ""
+                        },
+                        "geometry": {
+                            "type": "LineString",
+                            "coordinates": [
+                                [
+                                    -58.484729,
+                                    -34.754335,
+                                    0.0
+                                ],
+                                [
+                                    -58.479891,
+                                    -34.751865,
+                                    0.0
+                                ],
+                                [
+                                    -58.478348,
+                                    -34.75105,
+                                    0.0
+                                ],
+                                [
+                                    -58.474052,
+                                    -34.756878,
+                                    0.0
+                                ],
+                                [
+                                    -58.473628,
+                                    -34.756779,
+                                    0.0
+                                ],
+                                [
+                                    -58.473397,
+                                    -34.75672,
+                                    0.0
+                                ],
+                                [
+                                    -58.473242,
+                                    -34.756707,
+                                    0.0
+                                ],
+                                [
+                                    -58.471603,
+                                    -34.756998,
+                                    0.0
+                                ],
+                                [
+                                    -58.470684,
+                                    -34.75333,
+                                    0.0
+                                ],
+                                [
+                                    -58.470701,
+                                    -34.753253,
+                                    0.0
+                                ],
+                                [
+                                    -58.47091,
+                                    -34.752966,
+                                    0.0
+                                ],
+                                [
+                                    -58.470923,
+                                    -34.752829,
+                                    0.0
+                                ],
+                                [
+                                    -58.470874,
+                                    -34.752742,
+                                    0.0
+                                ],
+                                [
+                                    -58.47078,
+                                    -34.752622,
+                                    0.0
+                                ],
+                                [
+                                    -58.47047,
+                                    -34.75229,
+                                    0.0
+                                ],
+                                [
+                                    -58.470398,
+                                    -34.752184,
+                                    0.0
+                                ],
+                                [
+                                    -58.470339,
+                                    -34.751975,
+                                    0.0
+                                ],
+                                [
+                                    -58.469997,
+                                    -34.750563,
+                                    0.0
+                                ],
+                                [
+                                    -58.472079,
+                                    -34.747739,
+                                    0.0
+                                ],
+                                [
+                                    -58.4653,
+                                    -34.744155,
+                                    0.0
+                                ],
+                                [
+                                    -58.465083,
+                                    -34.743973,
+                                    0.0
+                                ],
+                                [
+                                    -58.464816,
+                                    -34.74386,
+                                    0.0
+                                ],
+                                [
+                                    -58.458163,
+                                    -34.740619,
+                                    0.0
+                                ],
+                                [
+                                    -58.466425,
+                                    -34.729102,
+                                    0.0
+                                ],
+                                [
+                                    -58.466789,
+                                    -34.728578,
+                                    0.0
+                                ],
+                                [
+                                    -58.466872,
+                                    -34.728371,
+                                    0.0
+                                ],
+                                [
+                                    -58.466864,
+                                    -34.728082,
+                                    0.0
+                                ],
+                                [
+                                    -58.466802,
+                                    -34.727878,
+                                    0.0
+                                ],
+                                [
+                                    -58.466106,
+                                    -34.72682,
+                                    0.0
+                                ],
+                                [
+                                    -58.465794,
+                                    -34.726373,
+                                    0.0
+                                ],
+                                [
+                                    -58.465459,
+                                    -34.726168,
+                                    0.0
+                                ],
+                                [
+                                    -58.462751,
+                                    -34.724662,
+                                    0.0
+                                ],
+                                [
+                                    -58.464677,
+                                    -34.722271,
+                                    0.0
+                                ],
+                                [
+                                    -58.462322,
+                                    -34.720938,
+                                    0.0
+                                ],
+                                [
+                                    -58.467324,
+                                    -34.714694,
+                                    0.0
+                                ],
+                                [
+                                    -58.456728,
+                                    -34.708807,
+                                    0.0
+                                ],
+                                [
+                                    -58.456292,
+                                    -34.709048,
+                                    0.0
+                                ],
+                                [
+                                    -58.456039,
+                                    -34.709285,
+                                    0.0
+                                ],
+                                [
+                                    -58.455888,
+                                    -34.709341,
+                                    0.0
+                                ],
+                                [
+                                    -58.455509,
+                                    -34.709359,
+                                    0.0
+                                ],
+                                [
+                                    -58.454332,
+                                    -34.708765,
+                                    0.0
+                                ],
+                                [
+                                    -58.454184,
+                                    -34.708432,
+                                    0.0
+                                ],
+                                [
+                                    -58.454167,
+                                    -34.708029,
+                                    0.0
+                                ],
+                                [
+                                    -58.454054,
+                                    -34.707737,
+                                    0.0
+                                ],
+                                [
+                                    -58.453896,
+                                    -34.707557,
+                                    0.0
+                                ],
+                                [
+                                    -58.455076,
+                                    -34.706868,
+                                    0.0
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        };
+
+
+        let map, infoWindow, trafficLayer;
+        let infoWindowTimer; // Temporizador global para el cierre automático
+        let limiteElements = []; // Array para almacenar Polygons/Polylines del límite punteado
+        let lomasPolygons = []; // Array de polígonos del límite de Lomas de Zamora
+        let arrivalPolylines = {}; // Polílineas animadas de llegada al colectivo
+        let polylineAnimationOffset = 0; // Animación de flechas de llegada
+        let sidebarRoutePolylines = {}; // Diccionario de polilíneas de ruta cargadas por archivo (nombre -> [glow, core])
+        let sidebarRoutePoints = {}; // Diccionario de coordenadas LatLng cargadas (nombre -> [latLng, ...])
+        let currentRoutePoints = []; // Coordenadas LatLng de la ruta del ramal seleccionado para predicción
+        let autoCheckedFile = null; // Nombre de archivo de la ruta auto-marcada por el dropdown
+
+        // Algoritmo de Ray-Casting (Even-Odd Rule) para determinar si un punto está dentro de un polígono
+        function isPointInPolygon(point, polygon) {
+            const x = point.lng, y = point.lat;
+            let inside = false;
+            for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+                const xi = polygon[i].lng, yi = polygon[i].lat;
+                const xj = polygon[j].lng, yj = polygon[j].lat;
+
+                const intersect = ((yi > y) !== (yj > y))
+                    && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                if (intersect) inside = !inside;
+            }
+            return inside;
+        }
+
+        function isPointInLomas(lat, lng) {
+            if (lomasPolygons.length === 0) return true; // Fallback si no cargaron los límites
+            const pt = { lat, lng };
+            return lomasPolygons.some(poly => isPointInPolygon(pt, poly));
+        }
+
+        // Obtener el índice más cercano de un punto en la polilínea
+        function getClosestIndex(latLng, points) {
+            let minDist = Infinity;
+            let closestIdx = -1;
+            const lat1 = latLng.lat;
+            const lng1 = latLng.lng;
+            for (let i = 0; i < points.length; i++) {
+                const lat2 = points[i].lat();
+                const lng2 = points[i].lng();
+                const dist = (lat1 - lat2) * (lat1 - lat2) + (lng1 - lng2) * (lng1 - lng2);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIdx = i;
+                }
+            }
+            return closestIdx;
+        }
+
+        // Calcular distancia en metros entre dos coordenadas (Haversine simple)
+        function getDistanceMeters(lat1, lng1, lat2, lng2) {
+            const R = 6371000; // Radio de la Tierra en metros
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // Dibujar el recorrido en el mapa con efecto Glow Neon
+        function drawRoute(fileName, geoJson) {
+            // Si ya está dibujada en el mapa, la removemos primero
+            removeRoute(fileName);
+
+            if (!geoJson || !geoJson.features || geoJson.features.length === 0) return;
+
+            const coordinates = geoJson.features[0].geometry.coordinates.map(c => new google.maps.LatLng(c[1], c[0]));
+
+            const glowPoly = new google.maps.Polyline({
+                path: coordinates,
+                strokeColor: '#4AB5E0',
+                strokeOpacity: 0.45,
+                strokeWeight: 10,
+                map: map,
+                zIndex: 4
+            });
+
+            const corePoly = new google.maps.Polyline({
+                path: coordinates,
+                strokeColor: '#19567C',
+                strokeOpacity: 1.0,
+                strokeWeight: 4,
+                map: map,
+                zIndex: 5
+            });
+
+            sidebarRoutePolylines[fileName] = [glowPoly, corePoly];
+            sidebarRoutePoints[fileName] = coordinates;
+
+            // Ajustar los límites del mapa para mostrar todo el recorrido
+            if (coordinates.length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                coordinates.forEach(c => bounds.extend(c));
+                map.fitBounds(bounds);
+            }
+        }
+
+        // Remover recorrido del mapa
+        function removeRoute(fileName) {
+            if (sidebarRoutePolylines[fileName]) {
+                sidebarRoutePolylines[fileName].forEach(p => p.setMap(null));
+                delete sidebarRoutePolylines[fileName];
+            }
+            if (sidebarRoutePoints[fileName]) {
+                delete sidebarRoutePoints[fileName];
+            }
+        }
+
+        // Cargar/quitar recorrido de forma instantánea usando los datos embebidos
+        function toggleRouteCheckbox(fileName, isChecked) {
+            if (isChecked) {
+                const key = fileName.replace(".geojson", "");
+                const geoJson = EMBEDDED_GEOJSON[key];
+                if (geoJson) {
+                    drawRoute(fileName, geoJson);
+
+                    // Si coincide con el recorrido actualmente seleccionado, actualizar currentRoutePoints
+                    const expectedFile = getExpectedRouteFile();
+                    if (expectedFile === fileName) {
+                        currentRoutePoints = sidebarRoutePoints[fileName] || [];
+                    }
+                } else {
+                    console.error("Recorrido no encontrado en datos embebidos:", fileName);
+                }
+            } else {
+                removeRoute(fileName);
+
+                // Si coincide con el recorrido actualmente seleccionado, limpiar currentRoutePoints
+                const expectedFile = getExpectedRouteFile();
+                if (expectedFile === fileName) {
+                    currentRoutePoints = [];
+                }
+            }
+        }
+
+        // Helper para resolver el archivo GeoJSON esperado según el dropdown de ramal
+        function getExpectedRouteFile() {
+            const selectLinea = document.getElementById('select-colectivo-linea');
+            const selectRec = document.getElementById('select-colectivo-recorrido');
+            if (!selectLinea || !selectRec || selectLinea.selectedIndex === -1 || selectRec.selectedIndex === -1) {
+                return null;
+            }
+            const lineaText = selectLinea.options[selectLinea.selectedIndex].textContent;
+            const text = selectRec.options[selectRec.selectedIndex].textContent;
+
+            if (lineaText.includes("553")) {
+                if (text.includes("I553") || text.includes("A LOMAS") || text.includes("I a Lomas")) {
+                    return "Autobuses 553 - I a Lomas.geojson";
+                }
+                if (text.includes("V553") || text.includes("A LA NORIA") || text.includes("V a La Noria")) {
+                    return "Autobuses 553 - V a La Noria.geojson";
+                }
+                return null;
+            }
+
+            if (lineaText.includes("552")) {
+                const normText = text.toUpperCase();
+                if (normText.includes("552A")) {
+                    if (normText.includes("V552A") || normText.includes("BANFIELD") || normText.includes("V A BANFIELD")) {
+                        return "Autobuses 552A - V a Banfield.geojson";
+                    }
+                    return "Autobuses 552A - I a Universidad.geojson";
+                }
+                if (normText.includes("552B")) {
+                    if (normText.includes("V552B") || normText.includes("NORIA") || normText.includes("V A LA NORIA") || normText.includes("RESTELLI")) {
+                        return "Autobuses 552B - V a La Noria.geojson";
+                    }
+                    return "Autobuses 552B - I a Banfield.geojson";
+                }
+                if (normText.includes("552C")) {
+                    if (normText.includes("V552C") || normText.includes("NORIA") || normText.includes("V A LA NORIA")) {
+                        return "Autobuses 552C - V a La Noria.geojson";
+                    }
+                    return "Autobuses 552C - I a Ruta IV.geojson";
+                }
+                return null;
+            }
+
+            if (lineaText.includes("550")) {
+                const normText = text.toUpperCase();
+                if (normText.includes("550L") || normText.includes("550 L")) {
+                    if (normText.includes("V550L") || normText.includes("LA NORIA") || normText.includes("V A LA NORIA")) {
+                        return "Autobuses 550L - V a La Noria.geojson";
+                    }
+                    return "Autobuses 550L - I a Lomas.geojson";
+                }
+                if (normText.includes("550U") || normText.includes("550 U")) {
+                    if (normText.includes("V550U") || normText.includes("LA NORIA") || normText.includes("V A LA NORIA")) {
+                        return "Autobuses 550U - V a La Noria.geojson";
+                    }
+                    return "Autobuses 550U - I a Lomas.geojson";
+                }
+                return null;
+            }
+
+            if (lineaText.includes("551")) {
+                const normText = text.toUpperCase();
+                if (normText.includes("551A") || normText.includes("551 A")) {
+                    if (normText.includes("V551A") || normText.includes("PENAL") || normText.includes("V AL PENAL")) {
+                        return "Autobuses 551A - V al Penal.geojson";
+                    }
+                    return "Autobuses 551A - I a Lomas.geojson";
+                }
+                if (normText.includes("551C") || normText.includes("551 C")) {
+                    if (normText.includes("V551C") || normText.includes("LA NORIA") || normText.includes("V A LA NORIA")) {
+                        return "Autobuses 551C - V a La Noria.geojson";
+                    }
+                    return "Autobuses 551C - I a Ruta 4.geojson";
+                }
+                return null;
+            }
+
+            if (lineaText.includes("548")) {
+                const normText = text.toUpperCase();
+                if (normText.includes("548B") || normText.includes("548 B") || normText.includes("551E") || normText.includes("PENAL") || normText.includes("LA NORIA")) {
+                    if (normText.includes("PENAL") || normText.includes("I551E")) {
+                        return "Autobuses 548B - V al Penal.geojson";
+                    }
+                    if (normText.includes("LA NORIA") || normText.includes("V551E")) {
+                        return "Autobuses 548B - I a La Noria.geojson";
+                    }
+                }
+                return null;
+            }
+
+            if (lineaText.includes("540")) {
+                const normText = text.toUpperCase();
+                if (normText.includes("LOMAS") || normText.includes("I540")) {
+                    return "Autobuses 540 - I a Lomas.geojson";
+                }
+                if (normText.includes("LA NORIA") || normText.includes("V540")) {
+                    return "Autobuses 540 - V a La Noria.geojson";
+                }
+                return null;
+            }
+
+            if (lineaText.includes("542")) {
+                const normText = text.toUpperCase();
+                if (normText.includes("LOMAS") || normText.includes("I542")) {
+                    return "Autobuses 542 - I a Lomas.geojson";
+                }
+                if (normText.includes("LA NORIA") || normText.includes("V542")) {
+                    return "Autobuses 542 - V a La Noria.geojson";
+                }
+                return null;
+            }
+
+            let prefix = "";
+            if (lineaText.includes("266")) prefix = "EVG 266";
+            else if (lineaText.includes("564")) prefix = "EVG 564";
+
+            if (!prefix) return null;
+
+            if (text.includes("Ramal 1 I") || text.includes("1 I")) return `${prefix} - 1 I.geojson`;
+            if (text.includes("Ramal 1 V") || text.includes("1 V")) return `${prefix} - 1 V.geojson`;
+            if (text.includes("Ramal 2 I") || text.includes("2 I")) return `${prefix} - 2 I.geojson`;
+            if (text.includes("Ramal 2 V") || text.includes("2 V")) return `${prefix} - 2 V.geojson`;
+            if (text.includes("Ramal 4 I") || text.includes("4 I")) return `${prefix} - 4 I.geojson`;
+            if (text.includes("Ramal 4 V") || text.includes("4 V")) return `${prefix} - 4 V.geojson`;
+            if (text.includes("Ramal 5 I") || text.includes("5 I")) return `${prefix} - 5 I.geojson`;
+            if (text.includes("Ramal 5 V") || text.includes("5 V")) return `${prefix} - 5 V.geojson`;
+            if (text.includes("Ramal 6 I") || text.includes("6 I")) return `${prefix} - 6 I.geojson`;
+            if (text.includes("Ramal 6 V") || text.includes("6 V")) return `${prefix} - 6 V.geojson`;
+            if (text.includes("Ramal 7/8 I") || text.includes("7/8 I") || text.includes("7:8 I")) return `${prefix} - 7:8 I.geojson`;
+            if (text.includes("Ramal 7/8 V") || text.includes("7/8 V") || text.includes("7:8 V")) return `${prefix} - 7:8 V.geojson`;
+            if (text.includes("Ramal 3 I") || text.includes("3 I")) return `${prefix} - 3 I.geojson`;
+            if (text.includes("Ramal 3 V") || text.includes("3 V")) return `${prefix} - 3 V.geojson`;
+            if (text.includes("Ramal 9 I") || text.includes("9 I")) return `${prefix} - 9 I.geojson`;
+            if (text.includes("Ramal 9 V") || text.includes("9 V")) return `${prefix} - 9 V.geojson`;
+
+            return null;
+        }
+
+
+        // --- FUNCIÓN PARA EL TEMPORIZADOR DE INFOWINDOW ---
+        function startInfoWindowTimer() {
+            if (infoWindowTimer) clearTimeout(infoWindowTimer);
+            infoWindowTimer = setTimeout(() => {
+                if (infoWindow) infoWindow.close();
+            }, 10000); // 10 segundos
+        }
+
+        // --- FUNCIÓN GLOBAL PARA EL BOTÓN MANUAL DE CIERRE ---
+        window.closeInfoWindow = function () {
+            if (infoWindow) {
+                infoWindow.close();
+            }
+            if (infoWindowTimer) {
+                clearTimeout(infoWindowTimer);
+            }
+        };
+
+        // --- FUNCIÓN GLOBAL PARA CENTRAR EL MAPA EN UN COLECTIVO Y ABRIR SU INFO ---
+        window.focusOnBus = function (interno, lat, lng) {
+            const marker = busMarkers[interno];
+            if (!marker) return;
+            map.setCenter({ lat, lng });
+            map.setZoom(16);
+            google.maps.event.trigger(marker, 'click');
+        };
+
+        function initMap() {
+            lucide.createIcons();
+            infoWindow = new google.maps.InfoWindow();
+
+            // --- EVENTOS PARA PAUSAR EL TEMPORIZADOR POR INACTIVIDAD ---
+            google.maps.event.addListener(infoWindow, 'domready', () => {
+                const iwContainer = document.querySelector('.gm-style-iw-c');
+                if (iwContainer) {
+                    // Si el usuario pasa el mouse, pausamos el contador
+                    iwContainer.addEventListener('mouseenter', () => {
+                        if (infoWindowTimer) clearTimeout(infoWindowTimer);
+                    });
+                    // Si el usuario saca el mouse, reiniciamos los 10 segundos
+                    iwContainer.addEventListener('mouseleave', () => {
+                        startInfoWindowTimer();
+                    });
+                }
+            });
+
+            // Estilo claro minimalista
+            const mapStyle = [
+                { featureType: "poi", stylers: [{ visibility: "off" }] },
+                { featureType: "transit", stylers: [{ visibility: "off" }] },
+                { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
+                { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+                { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+                { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
+                { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9e8f5" }] },
+                { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#9e9e9e" }] }
+            ];
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -34.7573, lng: -58.4035 },
+                zoom: 13,
+                styles: mapStyle,
+                mapTypeControl: false,
+                streetViewControl: false
+            });
+
+            trafficLayer = new google.maps.TrafficLayer();
+
+            // -----------------------------------------------------
+            // DEFINIR CLASE PARA EL CLÚSTER Y PUNTO INDIVIDUAL
+            // -----------------------------------------------------
+            // 1. Límite Lomas (Línea Solidamente Visible y Relleno)
+            const lomasGeoJson = EMBEDDED_GEOJSON['lomas_limits'];
+            if (lomasGeoJson) {
+                lomasGeoJson.features.forEach(feature => {
+                    if (feature.geometry.type === 'MultiPolygon' || feature.geometry.type === 'Polygon') {
+                        const polys = feature.geometry.type === 'Polygon' ? [feature.geometry.coordinates] : feature.geometry.coordinates;
+                        polys.forEach(poly => {
+                            poly.forEach(ring => {
+                                const path = ring.map(coord => ({ lat: coord[1], lng: coord[0] }));
+                                lomasPolygons.push(path); // Guardar para filtrado de paradas
+
+                                // Polígono con borde sólido y relleno suave
+                                const p = new google.maps.Polygon({
+                                    paths: path,
+                                    strokeColor: '#19567C',
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 2.5,
+                                    fillColor: '#19567C',
+                                    fillOpacity: 0.05,
+                                    map: map,
+                                    zIndex: 2
+                                });
+                                limiteElements.push(p);
+                            });
+                        });
+                    }
+                });
+            }
+
+            // --- CHECKBOXES TOGGLES ---
+            document.getElementById('cb-trafico').addEventListener('change', (e) => {
+                e.target.checked ? trafficLayer.setMap(map) : trafficLayer.setMap(null);
+            });
+
+            // === LÓGICA DE TIEMPO REAL: PRÓXIMO COLECTIVO ===
+            let busStopMarker = null;
+            let busMarkers = {};
+            let predictionsIntervalId = null;
+            // URL del servidor proxy (cambia automáticamente si estás local o en la web)
+            const PROXY_BASE_URL = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:")
+                ? "http://localhost:3000/api"
+                : "https://cuando-llego.onrender.com//api"; // Reemplazar con tu URL de Render o Railway una vez creado el servicio
+
+            window.toggleSeccionColectivo = function () {
+                const content = document.getElementById('content-colectivo');
+                const arrow = document.getElementById('arrow-colectivo');
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    arrow.style.transform = 'rotate(180deg)';
+                    cargarLineasColectivos();
+                } else {
+                    content.classList.add('hidden');
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            };
+
+            let lineasLoaded = false;
+            async function cargarLineasColectivos() {
+                if (lineasLoaded) return;
+                const selectLinea = document.getElementById('select-colectivo-linea');
+                selectLinea.innerHTML = '<option value="">Cargando líneas...</option>';
+                try {
+                    const response = await fetch(`${PROXY_BASE_URL}/lineas`);
+                    const data = await response.json();
+
+                    selectLinea.innerHTML = '<option value="">Seleccione una línea</option>';
+                    data.forEach(linea => {
+                        const opt = document.createElement('option');
+                        opt.value = linea.id;
+                        opt.textContent = linea.ds;
+                        selectLinea.appendChild(opt);
+                    });
+                    lineasLoaded = true;
+                } catch (error) {
+                    console.error('Error al cargar líneas:', error);
+                    selectLinea.innerHTML = '<option value="">Error al cargar líneas</option>';
+                }
+            }
+
+            async function onLineaChange() {
+                const lineaId = this.value;
+                const selectRecorrido = document.getElementById('select-colectivo-recorrido');
+                const selectParada = document.getElementById('select-colectivo-parada');
+
+                selectRecorrido.innerHTML = '<option value="">Seleccione un ramal</option>';
+                selectRecorrido.disabled = true;
+                selectParada.innerHTML = '<option value="">Seleccione una parada</option>';
+                selectParada.disabled = true;
+
+                stopPredictionsPolling();
+                if (busStopMarker) {
+                    busStopMarker.setMap(null);
+                    busStopMarker = null;
+                }
+
+                // Desmarcar el recorrido auto-marcado anteriormente si existe
+                if (autoCheckedFile) {
+                    const cb = document.querySelector(`.cb-route[data-file="${autoCheckedFile}"]`);
+                    if (cb && cb.checked) {
+                        cb.checked = false;
+                        toggleRouteCheckbox(autoCheckedFile, false);
+                    }
+                    autoCheckedFile = null;
+                }
+
+                if (!lineaId) return;
+
+                selectRecorrido.innerHTML = '<option value="">Cargando ramales...</option>';
+                try {
+                    const response = await fetch(`${PROXY_BASE_URL}/recorridos?linea=${lineaId}`);
+                    const data = await response.json();
+
+                    selectRecorrido.innerHTML = '<option value="">Seleccione un ramal</option>';
+                    data.forEach(rec => {
+                        const opt = document.createElement('option');
+                        opt.value = rec.id;
+                        opt.textContent = rec.ds;
+                        selectRecorrido.appendChild(opt);
+                    });
+
+                    // Inyectar manualmente Ramal 7/8 si la línea es Linea 266 (id: 221) porque falta en la BD
+                    if (lineaId.toString() === "221") {
+                        const optI = document.createElement('option');
+                        optI.value = "manual_266_78_I";
+                        optI.textContent = "Ramal 7/8 I";
+                        selectRecorrido.appendChild(optI);
+
+                        const optV = document.createElement('option');
+                        optV.value = "manual_266_78_V";
+                        optV.textContent = "Ramal 7/8 V";
+                        selectRecorrido.appendChild(optV);
+                    }
+
+                    selectRecorrido.disabled = false;
+                } catch (error) {
+                    console.error('Error al cargar recorridos:', error);
+                    selectRecorrido.innerHTML = '<option value="">Error al cargar ramales</option>';
+                }
+            }
+
+            async function onRecorridoChange() {
+                const recorridoId = this.value;
+                const selectParada = document.getElementById('select-colectivo-parada');
+
+                selectParada.innerHTML = '<option value="">Seleccione una parada</option>';
+                selectParada.disabled = true;
+
+                stopPredictionsPolling();
+                if (busStopMarker) {
+                    busStopMarker.setMap(null);
+                    busStopMarker = null;
+                }
+
+                // Desmarcar el recorrido auto-marcado anteriormente si existe
+                if (autoCheckedFile) {
+                    const cb = document.querySelector(`.cb-route[data-file="${autoCheckedFile}"]`);
+                    if (cb && cb.checked) {
+                        cb.checked = false;
+                        toggleRouteCheckbox(autoCheckedFile, false);
+                    }
+                    autoCheckedFile = null;
+                }
+
+                currentRoutePoints = [];
+
+                if (!recorridoId) return;
+
+                const geoJsonFile = getExpectedRouteFile();
+                if (geoJsonFile) {
+                    const cb = document.querySelector(`.cb-route[data-file="${geoJsonFile}"]`);
+                    if (cb) {
+                        if (!cb.checked) {
+                            autoCheckedFile = geoJsonFile;
+                            cb.checked = true;
+                            toggleRouteCheckbox(geoJsonFile, true);
+                        } else {
+                            currentRoutePoints = sidebarRoutePoints[geoJsonFile] || [];
+                        }
+                    }
+                }
+
+                // Si es un ramal inyectado manualmente, no tiene paradas en la API
+                if (recorridoId.toString().startsWith("manual_")) {
+                    selectParada.innerHTML = '<option value="">No hay paradas en la API para este ramal</option>';
+                    selectParada.disabled = true;
+                    return;
+                }
+
+                selectParada.innerHTML = '<option value="">Cargando paradas...</option>';
+                try {
+                    const response = await fetch(`${PROXY_BASE_URL}/paradas?recorrido=${recorridoId}`);
+                    const data = await response.json();
+
+                    if (data.length === 0) {
+                        selectParada.innerHTML = '<option value="">No hay paradas en la API para este ramal</option>';
+                        selectParada.disabled = true;
+                    } else {
+                        selectParada.innerHTML = '<option value="">Seleccione una parada</option>';
+                        let added = 0;
+                        data.forEach(parada => {
+                            let lat = parseFloat(parada.latitud);
+                            let lng = parseFloat(parada.longitud);
+
+                            if (Math.abs(lat) > 90) {
+                                lat = lat / 1000000.0;
+                            }
+                            if (Math.abs(lng) > 180) {
+                                lng = lng / 1000000.0;
+                            }
+
+                            if (isPointInLomas(lat, lng)) {
+                                const opt = document.createElement('option');
+                                opt.value = parada.id;
+                                opt.textContent = parada.ds;
+                                opt.setAttribute('data-lat', lat);
+                                opt.setAttribute('data-lng', lng);
+                                selectParada.appendChild(opt);
+                                added++;
+                            }
+                        });
+                        if (added === 0) {
+                            selectParada.innerHTML = '<option value="">No hay paradas dentro de Lomas de Zamora</option>';
+                            selectParada.disabled = true;
+                        } else {
+                            selectParada.disabled = false;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error al cargar paradas:', error);
+                    selectParada.innerHTML = '<option value="">Error al cargar paradas</option>';
+                }
+            }
+
+            async function onParadaChange() {
+                const paradaId = this.value;
+                const selectParada = document.getElementById('select-colectivo-parada');
+                const selectedOption = selectParada.options[selectParada.selectedIndex];
+
+                stopPredictionsPolling();
+                if (busStopMarker) {
+                    busStopMarker.setMap(null);
+                    busStopMarker = null;
+                }
+
+                if (!paradaId) return;
+
+                const lat = parseFloat(selectedOption.getAttribute('data-lat'));
+                const lng = parseFloat(selectedOption.getAttribute('data-lng'));
+
+                if (isNaN(lat) || isNaN(lng)) {
+                    console.error("Coordenadas de parada inválidas:", lat, lng);
+                    return;
+                }
+
+                const paradaLatLng = { lat, lng };
+                map.setCenter(paradaLatLng);
+                map.setZoom(16);
+
+                busStopMarker = new google.maps.Marker({
+                    position: paradaLatLng,
+                    map: map,
+                    title: selectedOption.textContent,
+                    icon: {
+                        url: './COLECTIVOS-02.svg',
+                        scaledSize: new google.maps.Size(32, 32),
+                        anchor: new google.maps.Point(16, 16)
+                    },
+                    zIndex: 100
+                });
+
+                busStopMarker.addListener('click', () => {
+                    const content = `
+                        <div style="font-family: 'Montserrat', sans-serif; min-width: 180px; position: relative;">
+                            <button onclick="window.closeInfoWindow()" class="custom-close-btn">&times;</button>
+                            <h3 style="font-weight: 800; font-size: 14px; color: #0B5F8D; border-bottom: 1px solid #E6EDF3; padding-bottom: 4px; margin-bottom: 8px; padding-right: 20px;">Parada Seleccionada</h3>
+                            <p style="margin: 4px 0; font-size: 12px; color: #333;"><b>Ubicación:</b> ${selectedOption.textContent}</p>
+                        </div>
+                    `;
+                    infoWindow.setContent(content);
+                    infoWindow.setPosition(paradaLatLng);
+                    infoWindow.open(map);
+                    startInfoWindowTimer();
+                });
+
+                const lineaId = document.getElementById('select-colectivo-linea').value;
+                startPredictionsPolling(paradaId, lineaId);
+            }
+
+            function startPredictionsPolling(paradaId, lineaId) {
+                if (predictionsIntervalId) {
+                    clearInterval(predictionsIntervalId);
+                }
+
+                fetchPredictions(paradaId, lineaId);
+                predictionsIntervalId = setInterval(() => {
+                    fetchPredictions(paradaId, lineaId);
+                }, 25000);
+            }
+
+            function stopPredictionsPolling() {
+                if (predictionsIntervalId) {
+                    clearInterval(predictionsIntervalId);
+                    predictionsIntervalId = null;
+                }
+
+                for (let key in busMarkers) {
+                    if (busMarkers[key]) {
+                        busMarkers[key].setMap(null);
+                    }
+                }
+                busMarkers = {};
+
+                for (let key in arrivalPolylines) {
+                    if (arrivalPolylines[key]) {
+                        arrivalPolylines[key].setMap(null);
+                    }
+                }
+                arrivalPolylines = {};
+
+                const statusDiv = document.getElementById('status-colectivo');
+                if (statusDiv) statusDiv.classList.add('hidden');
+
+                const listDiv = document.getElementById('predictions-list');
+                if (listDiv) {
+                    listDiv.innerHTML = "";
+                    listDiv.classList.add('hidden');
+                }
+            }
+
+            async function fetchPredictions(paradaId, lineaId) {
+                const statusDiv = document.getElementById('status-colectivo');
+                if (statusDiv) statusDiv.classList.remove('hidden');
+
+                try {
+                    const response = await fetch(`${PROXY_BASE_URL}/prediccion?parada=${paradaId}&linea=${lineaId}`);
+                    const data = await response.json();
+
+                    const activeInternos = new Set();
+
+                    if (Array.isArray(data)) {
+                        // Obtener coordenadas de la parada seleccionada
+                        const selectParada = document.getElementById('select-colectivo-parada');
+                        if (!selectParada || selectParada.selectedIndex === -1) return;
+                        const selectedParadaOpt = selectParada.options[selectParada.selectedIndex];
+                        if (!selectedParadaOpt) return;
+                        const paradaLat = parseFloat(selectedParadaOpt.getAttribute('data-lat'));
+                        const paradaLng = parseFloat(selectedParadaOpt.getAttribute('data-lng'));
+                        if (isNaN(paradaLat) || isNaN(paradaLng)) return;
+                        const paradaLatLng = { lat: paradaLat, lng: paradaLng };
+
+                        // === PASO 1: Parsear y filtrar TODOS los colectivos primero ===
+                        const validBuses = [];
+                        const seenInternos = new Set();
+                        data.forEach(bus => {
+                            const interno = bus.interno;
+                            if (!interno) return;
+                            
+                            // Filtrar duplicados que a veces retorna la API de Bondicom
+                            if (seenInternos.has(interno)) return;
+                            seenInternos.add(interno);
+
+                            let latRaw = bus.lat !== undefined ? bus.lat : bus.latitud;
+                            let lngRaw = bus.lon !== undefined ? bus.lon : bus.longitud;
+
+                            if (latRaw === undefined || lngRaw === undefined) return;
+
+                            let lat = parseFloat(latRaw);
+                            let lng = parseFloat(lngRaw);
+
+                            if (Math.abs(lat) > 90) lat = lat / 1000000.0;
+                            if (Math.abs(lng) > 180) lng = lng / 1000000.0;
+
+                            if (isNaN(lat) || isNaN(lng)) return;
+
+                            const newPos = { lat, lng };
+
+                            // NOTA: Se eliminan los filtros rígidos de distancia de la ruta y orden de paradas para EVG.
+                            // Las APIs de colectivos ya devuelven únicamente las unidades aproximándose a la parada.
+                            // Intentar filtrar en el cliente con archivos GeoJSON simplificados o incompletos causaba
+                            // que los colectivos desaparecieran erróneamente en la mayoría de las búsquedas.
+
+                            const eta = bus.tiempo || bus.tiempoEstimado || 'Sin estimación';
+                            const cartel = (bus.cartel || bus.ramal || '').trim() || 'Colectivo';
+
+                            // 1. Filtrado de Autobuses por texto del cartel (ramal)
+                            if (parseInt(lineaId) >= 1000) {
+                                const selectRec = document.getElementById('select-colectivo-recorrido');
+                                if (selectRec && selectRec.value && selectRec.selectedIndex !== -1) {
+                                    const recText = selectRec.options[selectRec.selectedIndex].textContent.toUpperCase();
+                                    const busCartel = cartel.toUpperCase();
+                                    if (busCartel && busCartel !== 'COLECTIVO' && !recText.includes(busCartel)) {
+                                        return;
+                                    }
+                                }
+                            }
+
+                            // 2. Filtrado geométrico por ruta (para ambas APIs: EVG y Autobuses)
+                            if (currentRoutePoints && currentRoutePoints.length > 0) {
+                                const idxBus = getClosestIndex(newPos, currentRoutePoints);
+                                const idxParada = getClosestIndex(paradaLatLng, currentRoutePoints);
+                                if (idxBus !== -1 && idxParada !== -1) {
+                                    const closestPt = currentRoutePoints[idxBus];
+                                    const distToRoute = getDistanceMeters(newPos.lat, newPos.lng, closestPt.lat(), closestPt.lng());
+                                    const distToParada = getDistanceMeters(newPos.lat, newPos.lng, paradaLatLng.lat, paradaLatLng.lng);
+
+                                    // Filtrar si la unidad está muy alejada del trazado (por ejemplo, en el recorrido de vuelta u otra calle)
+                                    // Usamos un umbral generoso de 800 metros debido a la simplificación de algunos archivos GeoJSON.
+                                    if (distToRoute > 800) {
+                                        return;
+                                    }
+
+                                    // Filtrar si la unidad ya superó la parada por más de 250 metros
+                                    if (idxBus > idxParada && distToParada > 250) {
+                                        return;
+                                    }
+                                }
+                            }
+
+                            validBuses.push({ interno, newPos, eta, cartel });
+                        });
+
+                        // === PASO 2: Tomar los 3 primeros colectivos válidos ===
+                        const closestBuses = validBuses.slice(0, 3);
+
+                        // Ajustar posiciones duplicadas o muy cercanas para evitar superposición completa (efecto spider)
+                        for (let i = 0; i < closestBuses.length; i++) {
+                            for (let j = 0; j < i; j++) {
+                                const latDiff = closestBuses[i].newPos.lat - closestBuses[j].newPos.lat;
+                                const lngDiff = closestBuses[i].newPos.lng - closestBuses[j].newPos.lng;
+                                const distDeg = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff);
+                                if (distDeg < 0.00012) { // Aproximadamente 12 metros de cercanía
+                                    // Desplazar ligeramente en una dirección angular
+                                    const angle = (i * 2 * Math.PI) / closestBuses.length;
+                                    closestBuses[i].newPos.lat += 0.00012 * Math.sin(angle);
+                                    closestBuses[i].newPos.lng += 0.00012 * Math.cos(angle);
+                                }
+                            }
+                        }
+
+                        // === PASO 3: Renderizar marcadores y polilíneas en el mapa ===
+                        closestBuses.forEach(({ interno, newPos, eta, cartel }) => {
+                            activeInternos.add(interno);
+
+                            if (busMarkers[interno]) {
+                                const marker = busMarkers[interno];
+                                const startPos = {
+                                    lat: marker.getPosition().lat(),
+                                    lng: marker.getPosition().lng()
+                                };
+                                marker.set('eta', eta);
+                                marker.set('cartel', cartel);
+                                animateMarker(marker, startPos, newPos, 4000);
+                            } else {
+                                const marker = new google.maps.Marker({
+                                    position: newPos,
+                                    map: map,
+                                    title: `Interno: ${interno}`,
+                                    icon: {
+                                        url: (parseInt(lineaId) < 1000) ? './EVG.svg' : './AUTOBUSES.svg',
+                                        scaledSize: new google.maps.Size(36, 36),
+                                        anchor: new google.maps.Point(18, 18)
+                                    },
+                                    zIndex: 110
+                                });
+
+                                marker.set('interno', interno);
+                                marker.set('eta', eta);
+                                marker.set('cartel', cartel);
+
+                                marker.addListener('click', () => {
+                                    const mInterno = marker.get('interno');
+                                    const mEta = marker.get('eta');
+                                    const mCartel = marker.get('cartel');
+
+                                    const content = `
+                                         <div style="font-family: 'Montserrat', sans-serif; min-width: 180px; position: relative;">
+                                             <button onclick="window.closeInfoWindow()" class="custom-close-btn">&times;</button>
+                                             <h3 style="font-weight: 800; font-size: 14px; color: #D34872; border-bottom: 1px solid #E6EDF3; padding-bottom: 4px; margin-bottom: 8px; padding-right: 20px;">Colectivo en Camino</h3>
+                                             <p style="margin: 4px 0; font-size: 12px; color: #333;"><b>Interno:</b> ${mInterno}</p>
+                                             <p style="margin: 4px 0; font-size: 12px; color: #333;"><b>Ramal:</b> ${mCartel}</p>
+                                             <p style="margin: 4px 0; font-size: 12px; color: #D34872; font-weight: bold;"><i class="fa-solid fa-clock"></i> Arribo: ${mEta}</p>
+                                         </div>
+                                    `;
+                                    infoWindow.setContent(content);
+                                    infoWindow.setPosition(marker.getPosition());
+                                    infoWindow.open(map);
+                                    startInfoWindowTimer();
+                                });
+
+                                busMarkers[interno] = marker;
+                            }
+
+                            // --- DIBUJAR CAPA DE RECORRIDO RESTANTE (Llegada a la parada) ---
+                            let useStraightLine = true;
+                            let pathSegment = [];
+
+                            if (currentRoutePoints.length > 0 && !isNaN(paradaLat) && !isNaN(paradaLng)) {
+                                const idxBus = getClosestIndex(newPos, currentRoutePoints);
+                                const idxParada = getClosestIndex(paradaLatLng, currentRoutePoints);
+
+                                if (idxBus !== -1 && idxParada !== -1) {
+                                    const closestPt = currentRoutePoints[idxBus];
+                                    const dist = getDistanceMeters(newPos.lat, newPos.lng, closestPt.lat(), closestPt.lng());
+
+                                    // Si el colectivo está cerca del recorrido (800 metros), seguimos los puntos de la ruta
+                                    if (dist <= 800) {
+                                        useStraightLine = false;
+                                        if (idxBus <= idxParada) {
+                                            pathSegment = currentRoutePoints.slice(idxBus, idxParada + 1);
+                                        } else {
+                                            pathSegment = currentRoutePoints.slice(idxParada, idxBus + 1).reverse();
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (useStraightLine && !isNaN(paradaLat) && !isNaN(paradaLng)) {
+                                // Fallback a línea recta si no hay puntos de ruta cargados o el coche está fuera de la polilínea
+                                pathSegment = [
+                                    new google.maps.LatLng(newPos.lat, newPos.lng),
+                                    new google.maps.LatLng(paradaLat, paradaLng)
+                                ];
+                            }
+
+                            if (pathSegment.length > 0) {
+                                // Conectar exactamente con el marcador del colectivo y de la parada
+                                const firstPt = pathSegment[0];
+                                const lastPt = pathSegment[pathSegment.length - 1];
+                                
+                                if (Math.abs(firstPt.lat() - newPos.lat) > 0.00001 || Math.abs(firstPt.lng() - newPos.lng) > 0.00001) {
+                                    pathSegment.unshift(new google.maps.LatLng(newPos.lat, newPos.lng));
+                                }
+                                if (Math.abs(lastPt.lat() - paradaLat) > 0.00001 || Math.abs(lastPt.lng() - paradaLng) > 0.00001) {
+                                    pathSegment.push(new google.maps.LatLng(paradaLat, paradaLng));
+                                }
+
+                                if (arrivalPolylines[interno]) {
+                                    arrivalPolylines[interno].setPath(pathSegment);
+                                } else {
+                                    const arrowSymbol = {
+                                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                                        scale: 2.5,
+                                        strokeColor: '#D34872',
+                                        fillColor: '#D34872',
+                                        fillOpacity: 1
+                                    };
+
+                                    arrivalPolylines[interno] = new google.maps.Polyline({
+                                        path: pathSegment,
+                                        strokeColor: '#D34872',
+                                        strokeOpacity: 0.8,
+                                        strokeWeight: 4,
+                                        icons: [{
+                                            icon: arrowSymbol,
+                                            offset: '0px',
+                                            repeat: '45px'
+                                        }],
+                                        map: map
+                                    });
+                                }
+                            }
+                        });
+
+                        // === PASO 4: Poblar panel lateral de Próximos Arribos ===
+                        const listDiv = document.getElementById('predictions-list');
+                        if (listDiv) {
+                            if (closestBuses.length === 0) {
+                                listDiv.innerHTML = `
+                                    <div style="font-family:'Montserrat',sans-serif;" class="text-center py-3 px-2">
+                                        <i class="fa-solid fa-bus-slash text-gray-300 text-2xl mb-2 block"></i>
+                                        <p class="text-xs text-gray-400 italic">No se registran colectivos en este ramal actualmente.</p>
+                                    </div>`;
+                            } else {
+                                listDiv.innerHTML = `
+                                    <p class="text-xs font-extrabold text-[#19567C] uppercase mb-2 flex items-center gap-1">
+                                        <i class="fa-solid fa-satellite-dish text-[#D34872] text-xs"></i>&nbsp;Próximos Arribos
+                                    </p>
+                                    ${closestBuses.map(({ interno, eta, cartel, newPos }) => `
+                                        <div onclick="window.focusOnBus('${interno}', ${newPos.lat}, ${newPos.lng})"
+                                             class="flex items-center justify-between bg-white border border-[#E6EDF3] rounded-lg px-3 py-2 cursor-pointer transition-all hover:bg-[#19567C]/5 hover:border-[#4AB5E0]"
+                                             style="font-family:'Montserrat',sans-serif; margin-bottom:6px;">
+                                            <div class="flex items-center gap-2">
+                                                <div class="bg-[#19567C] rounded-full w-6 h-6 flex items-center justify-center shrink-0">
+                                                    <i class="fa-solid fa-bus text-white" style="font-size:9px"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-[11px] font-bold text-[#0F172A] leading-tight">Interno ${interno}</p>
+                                                    <p class="text-[10px] text-gray-500 leading-tight">${cartel}</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right shrink-0">
+                                                <p class="text-[13px] font-extrabold text-[#D34872] leading-tight">${eta}</p>
+                                                <p class="text-[9px] text-gray-400 uppercase">arribo</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                `;
+                            }
+                            listDiv.classList.remove('hidden');
+                        }
+                    }
+
+                    for (let key in busMarkers) {
+                        if (!activeInternos.has(key)) {
+                            if (busMarkers[key]) {
+                                busMarkers[key].setMap(null);
+                            }
+                            delete busMarkers[key];
+
+                            // Limpiar pololínea del colectivo removido
+                            if (arrivalPolylines[key]) {
+                                arrivalPolylines[key].setMap(null);
+                                delete arrivalPolylines[key];
+                            }
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('Error al actualizar predicciones:', error);
+                } finally {
+                    if (statusDiv) statusDiv.classList.add('hidden');
+                }
+            }
+
+            function animateMarker(marker, startPos, endPos, duration = 3000) {
+                const startTime = performance.now();
+                const interno = marker.get('interno');
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    const lat = startPos.lat + (endPos.lat - startPos.lat) * progress;
+                    const lng = startPos.lng + (endPos.lng - startPos.lng) * progress;
+
+                    const latLng = new google.maps.LatLng(lat, lng);
+                    marker.setPosition(latLng);
+
+                    if (arrivalPolylines[interno]) {
+                        const path = arrivalPolylines[interno].getPath();
+                        if (path && path.getLength() > 0) {
+                            path.setAt(0, latLng);
+                        }
+                    }
+
+                    if (infoWindow && infoWindow.getMap() && infoWindow.getPosition() &&
+                        Math.abs(infoWindow.getPosition().lat() - startPos.lat) < 0.0001 &&
+                        Math.abs(infoWindow.getPosition().lng() - startPos.lng) < 0.0001) {
+                        infoWindow.setPosition(latLng);
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                }
+
+                requestAnimationFrame(step);
+            }
+
+            document.getElementById('select-colectivo-linea').addEventListener('change', onLineaChange);
+            document.getElementById('select-colectivo-recorrido').addEventListener('change', onRecorridoChange);
+            document.getElementById('select-colectivo-parada').addEventListener('change', onParadaChange);
+
+            // Registrar listeners para los checkboxes de Recorridos EVG
+            document.querySelectorAll('.cb-route').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const fileName = e.target.getAttribute('data-file');
+                    toggleRouteCheckbox(fileName, e.target.checked);
+                });
+            });
+
+            // Loop de animación para las flechas de llegada a la parada (cada 80ms)
+            setInterval(() => {
+                polylineAnimationOffset = (polylineAnimationOffset + 2) % 40;
+                for (let key in arrivalPolylines) {
+                    const poly = arrivalPolylines[key];
+                    if (poly) {
+                        const icons = poly.get('icons');
+                        if (icons && icons[0]) {
+                            icons[0].offset = polylineAnimationOffset + 'px';
+                            poly.set('icons', icons);
+                        }
+                    }
+                }
+            }, 80);
+        }
+    </script>
+</body>
+
+</html>
