@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <g fill="#FFCC00">
+    <rect x="12" y="50" width="12" height="34" rx="2" />
+    <rect x="24" y="54" width="6" height="5" />
+    <rect x="24" y="75" width="6" height="5" />
+  </g>
+  
+  <g fill="#FFCC00">
+    <rect x="176" y="50" width="12" height="34" rx="2" />
+    <rect x="170" y="54" width="6" height="5" />
+    <rect x="170" y="75" width="6" height="5" />
+  </g>
+  
+  <path d="M 46 20 A 16 16 0 0 0 30 36 L 30 144 L 170 144 L 170 36 A 16 16 0 0 0 154 20 Z" fill="#FFCC00" />
+  
+  <path d="M 30 148 L 30 164 A 4 4 0 0 0 34 168 L 166 168 A 4 4 0 0 0 170 164 L 170 148 Z" fill="#FFCC00" />
+  
+  <rect x="34" y="168" width="16" height="10" rx="3" fill="#000000" />
+  <rect x="150" y="168" width="16" height="10" rx="3" fill="#000000" />
+  
+  <rect x="54" y="27" width="92" height="16" fill="#FFFFFF" />
+  <text x="100" y="39" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#000000" letter-spacing="0.3">AUTOBUSES</text>
+  
+  <rect x="36" y="48" width="61" height="46" fill="#FFFFFF" />
+  <rect x="103" y="48" width="61" height="46" fill="#FFFFFF" />
+  
+  <path d="M 120 94 A 18 18 0 0 1 154 94" fill="none" stroke="#FFCC00" stroke-width="4" stroke-linecap="round" />
+  
+  <path d="M 34 104 Q 100 114 166 104 L 166 134 Q 100 142 34 134 Z" fill="#1C2850" />
+  
+  <path d="M 42 120 Q 50 117 58 123 Q 50 126 42 120 Z" fill="#FEF5C8" />
+  <path d="M 158 120 Q 150 117 142 123 Q 150 126 158 120 Z" fill="#FEF5C8" />
+  <rect x="88" y="125" width="24" height="3" rx="1.5" fill="#FEF5C8" />
+</svg>

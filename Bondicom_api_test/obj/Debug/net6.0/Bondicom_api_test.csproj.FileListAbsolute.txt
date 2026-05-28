@@ -1,0 +1,14 @@
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\bin\Debug\net6.0\Bondicom_api_test.exe
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\bin\Debug\net6.0\Bondicom_api_test.deps.json
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\bin\Debug\net6.0\Bondicom_api_test.runtimeconfig.json
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\bin\Debug\net6.0\Bondicom_api_test.dll
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\bin\Debug\net6.0\Bondicom_api_test.pdb
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.GeneratedMSBuildEditorConfig.editorconfig
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.AssemblyInfoInputs.cache
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.AssemblyInfo.cs
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.csproj.CoreCompileInputs.cache
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.dll
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\refint\Bondicom_api_test.dll
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.pdb
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\Bondicom_api_test.genruntimeconfig.cache
+F:\Clientes\NEXTBONDI\BONDICOM API\test\Bondicom_api_test\obj\Debug\net6.0\ref\Bondicom_api_test.dll

@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "EVG 266 - 1 I",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "266 RAMAL 1 - Desde Estacion Lomas", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [ [ -58.3962477, -34.7612728, 0.0 ], [ -58.3895314, -34.7622093, 0.0 ], [ -58.3896495, -34.7629849, 0.0 ], [ -58.3878063, -34.7656558, 0.0 ], [ -58.3800011, -34.7615551, 0.0 ], [ -58.3763506, -34.7670593, 0.0 ], [ -58.3751934, -34.7683267, 0.0 ], [ -58.339423, -34.7505521, 0.0 ] ] } }
+]
+}

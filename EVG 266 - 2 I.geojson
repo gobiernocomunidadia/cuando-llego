@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "EVG 266 - 2 I",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "266 RAMAL 2 - Desde Balcarce", "Descripci__n": "", "nombre": "" }, "geometry": { "type": "LineString", "coordinates": [ [ -58.3964902, -34.7612621, 0.0 ], [ -58.3886609, -34.7623573, 0.0 ], [ -58.3884718, -34.7623826, 0.0 ], [ -58.3775498, -34.7566809, 0.0 ], [ -58.3701226, -34.7528238, 0.0 ], [ -58.3689485, -34.7522157, 0.0 ], [ -58.3621638, -34.7616472, 0.0 ], [ -58.3625367, -34.7618345, 0.0 ], [ -58.359467, -34.7660371, 0.0 ] ] } }
+]
+}

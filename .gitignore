@@ -1,0 +1,4 @@
+.DS_Store
+backend-proxy/.env
+__pycache__/
+*.pyc
