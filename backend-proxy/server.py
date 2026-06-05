@@ -35,6 +35,13 @@ AUTOBUSES_USUARIO = os.environ.get("AUTOBUSES_USUARIO", "WEB.BSASAUT")
 AUTOBUSES_CLAVE = os.environ.get("AUTOBUSES_CLAVE", "PAR.SW.BSASAU")
 AUTOBUSES_COD_EMPRESA = os.environ.get("AUTOBUSES_COD_EMPRESA", "924")
 
+# Yitos API Config
+YITOS_USUARIO = os.environ.get("YITOS_USUARIO", "YITOS")
+YITOS_CLAVE = os.environ.get("YITOS_CLAVE", "WEBYITOS1045")
+YITOS_COD_EMPRESA = os.environ.get("YITOS_COD_EMPRESA", "1045")
+YITOS_COD_ENTIDAD = os.environ.get("YITOS_COD_ENTIDAD", "628")
+YITOS_OFFSET = 10000
+
 def call_bondicom(remote_url):
     """Encapsulates the signature generation and request for the Bondicom API."""
     timestamp = str(int(time.time()))
@@ -142,7 +149,49 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 except Exception as e:
                     print(f"Error fetching Autobuses lines: {e}", flush=True)
 
-                merged_lines = bondicom_lines + autobuses_lines
+                # 3. Fetch Yitos lines
+                yitos_lines = []
+                try:
+                    payload = f"""
+                      <usuario>{YITOS_USUARIO}</usuario>
+                      <clave>{YITOS_CLAVE}</clave>
+                      <codigoEmpresa>{YITOS_COD_EMPRESA}</codigoEmpresa>
+                      <isSublinea>false</isSublinea>
+                    """
+                    res = call_autobuses_soap("RecuperarLineasPorCodigoEmpresa", payload)
+                    data = json.loads(res)
+                    if data.get("CodigoEstado") == 0:
+                        for l in data.get("lineas", []):
+                            line_num = l.get("Descripcion", "")
+                            line_id = int(l.get("CodigoLineaParada"))
+                            yitos_lines.append({
+                                "id": line_id + YITOS_OFFSET,
+                                "ds": f"Linea {line_num}" if not line_num.lower().startswith("linea") else line_num
+                            })
+                    else:
+                        # Fallback to RecuperarBanderasEnFuncionamiento
+                        payload2 = f"""
+                          <usuario>{YITOS_USUARIO}</usuario>
+                          <clave>{YITOS_CLAVE}</clave>
+                          <codigoEntidad>{YITOS_COD_ENTIDAD}</codigoEntidad>
+                        """
+                        res2 = call_autobuses_soap("RecuperarBanderasEnFuncionamiento", payload2)
+                        data2 = json.loads(res2)
+                        if data2.get("CodigoEstado") == 0:
+                            seen_lines = set()
+                            for b in data2.get("banderas", []):
+                                line_id = int(b.get("CodigoParada"))
+                                line_desc = b.get("DescripcionCorta", "YITOS")
+                                if line_id not in seen_lines:
+                                    seen_lines.add(line_id)
+                                    yitos_lines.append({
+                                        "id": line_id + YITOS_OFFSET,
+                                        "ds": f"Linea {line_desc}"
+                                    })
+                except Exception as e:
+                    print(f"Error fetching Yitos lines: {e}", flush=True)
+
+                merged_lines = bondicom_lines + autobuses_lines + yitos_lines
                 self.send_json_response(200, merged_lines)
             except Exception as e:
                 self.send_error_response(500, f"Error listing lines: {str(e)}")
@@ -156,8 +205,31 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             
             try:
                 linea_id = int(linea_id_str)
-                # Autobuses Line range
-                if linea_id >= 1000:
+                if linea_id >= 10000:
+                    real_linea_id = linea_id - YITOS_OFFSET
+                    payload = f"""
+                      <usuario>{YITOS_USUARIO}</usuario>
+                      <clave>{YITOS_CLAVE}</clave>
+                      <codigoLineaParada>{real_linea_id}</codigoLineaParada>
+                      <isSublinea>false</isSublinea>
+                      <isInteligente>false</isInteligente>
+                    """
+                    res = call_autobuses_soap("RecuperarParadasCompletoPorLinea", payload)
+                    data = json.loads(res)
+                    
+                    recorridos = []
+                    if data.get("CodigoEstado") == 0:
+                        paradas_dict = data.get("paradas", {})
+                        for bandera_key, paradas_list in paradas_dict.items():
+                            desc = bandera_key
+                            if paradas_list:
+                                desc = paradas_list[0].get("AbreviaturaAmpliadaBandera") or bandera_key
+                            recorridos.append({
+                                "id": f"{linea_id}_{bandera_key}",
+                                "ds": f"{bandera_key} - {desc}"
+                            })
+                    self.send_json_response(200, recorridos)
+                elif linea_id >= 1000:
                     payload = f"""
                       <usuario>{AUTOBUSES_USUARIO}</usuario>
                       <clave>{AUTOBUSES_CLAVE}</clave>
@@ -202,10 +274,19 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     linea_id_str, bandera = recorrido.split("_", 1)
                     linea_id = int(linea_id_str)
                     
+                    if linea_id >= 10000:
+                        real_linea_id = linea_id - YITOS_OFFSET
+                        usuario = YITOS_USUARIO
+                        clave = YITOS_CLAVE
+                    else:
+                        real_linea_id = linea_id
+                        usuario = AUTOBUSES_USUARIO
+                        clave = AUTOBUSES_CLAVE
+                        
                     payload = f"""
-                      <usuario>{AUTOBUSES_USUARIO}</usuario>
-                      <clave>{AUTOBUSES_CLAVE}</clave>
-                      <codigoLineaParada>{linea_id}</codigoLineaParada>
+                      <usuario>{usuario}</usuario>
+                      <clave>{clave}</clave>
+                      <codigoLineaParada>{real_linea_id}</codigoLineaParada>
                       <isSublinea>false</isSublinea>
                       <isInteligente>false</isInteligente>
                     """
@@ -250,11 +331,20 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             try:
                 linea_id = int(linea_id_str)
                 if linea_id >= 1000:
+                    if linea_id >= 10000:
+                        real_linea_id = linea_id - YITOS_OFFSET
+                        usuario = YITOS_USUARIO
+                        clave = YITOS_CLAVE
+                    else:
+                        real_linea_id = linea_id
+                        usuario = AUTOBUSES_USUARIO
+                        clave = AUTOBUSES_CLAVE
+
                     payload = f"""
-                      <usuario>{AUTOBUSES_USUARIO}</usuario>
-                      <clave>{AUTOBUSES_CLAVE}</clave>
+                      <usuario>{usuario}</usuario>
+                      <clave>{clave}</clave>
                       <identificadorParada>{parada}</identificadorParada>
-                      <codigoLineaParada>{linea_id}</codigoLineaParada>
+                      <codigoLineaParada>{real_linea_id}</codigoLineaParada>
                       <codigoAplicacion>1</codigoAplicacion>
                       <localidad>Lomas de Zamora</localidad>
                       <isSublinea>false</isSublinea>

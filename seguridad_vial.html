@@ -1977,7 +1977,7 @@
                             window.location.hostname.endsWith(".local");
 
             const PROXY_BASE_URL = isLocal
-                ? "http://localhost:3000/api"
+                ? "http://localhost:3001/api"
                 : "https://cuando-llego.onrender.com/api";
 
             window.toggleSeccionColectivo = function () {
@@ -2380,7 +2380,7 @@
                                     map: map,
                                     title: `Interno: ${interno}`,
                                     icon: {
-                                        url: (parseInt(lineaId) < 1000) ? './EVG.svg' : './AUTOBUSES.svg',
+                                        url: (parseInt(lineaId) >= 10000) ? './YITOS.svg' : ((parseInt(lineaId) < 1000) ? './EVG.svg' : './AUTOBUSES.svg'),
                                         scaledSize: new google.maps.Size(36, 36),
                                         anchor: new google.maps.Point(18, 18)
                                     },
