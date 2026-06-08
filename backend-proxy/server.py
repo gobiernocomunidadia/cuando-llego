@@ -36,8 +36,9 @@ AUTOBUSES_CLAVE = os.environ.get("AUTOBUSES_CLAVE", "PAR.SW.BSASAU")
 AUTOBUSES_COD_EMPRESA = os.environ.get("AUTOBUSES_COD_EMPRESA", "924")
 
 # Yitos API Config
-YITOS_USUARIO = os.environ.get("YITOS_USUARIO", "YITOS")
-YITOS_CLAVE = os.environ.get("YITOS_CLAVE", "WEBYITOS1045")
+YITOS_URL = os.environ.get("YITOS_URL", "https://clswbsas.smartmovepro.net/ModuloParadas/SWParadas.asmx")
+YITOS_USUARIO = os.environ.get("YITOS_USUARIO", "WEB.YITOS")
+YITOS_CLAVE = os.environ.get("YITOS_CLAVE", "PAR.SW.WEB.YITOS4879")
 YITOS_COD_EMPRESA = os.environ.get("YITOS_COD_EMPRESA", "1045")
 YITOS_COD_ENTIDAD = os.environ.get("YITOS_COD_ENTIDAD", "628")
 YITOS_OFFSET = 10000
@@ -66,8 +67,10 @@ def call_bondicom(remote_url):
     with urllib.request.urlopen(req, timeout=10) as response:
         return response.status, response.read()
 
-def call_autobuses_soap(method_name, payload_xml):
+def call_autobuses_soap(method_name, payload_xml, target_url=None):
     """Executes a SOAP 1.1 request to the Autobuses ASMX web service and parses the result."""
+    if target_url is None:
+        target_url = AUTOBUSES_URL
     soap_action = f"http://clsw.smartmovepro.net/{method_name}"
     
     soap_payload = f"""<?xml version="1.0" encoding="utf-8"?>
@@ -88,7 +91,7 @@ def call_autobuses_soap(method_name, payload_xml):
     # Bypass SSL verification since the Autobuses server certificate is expired
     ssl_context = ssl._create_unverified_context()
     
-    req = urllib.request.Request(AUTOBUSES_URL, data=soap_payload.encode('utf-8'), headers=headers, method="POST")
+    req = urllib.request.Request(target_url, data=soap_payload.encode('utf-8'), headers=headers, method="POST")
     with urllib.request.urlopen(req, context=ssl_context, timeout=15) as response:
         body = response.read().decode('utf-8')
         root = ET.fromstring(body)
@@ -158,7 +161,7 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                       <codigoEmpresa>{YITOS_COD_EMPRESA}</codigoEmpresa>
                       <isSublinea>false</isSublinea>
                     """
-                    res = call_autobuses_soap("RecuperarLineasPorCodigoEmpresa", payload)
+                    res = call_autobuses_soap("RecuperarLineasPorCodigoEmpresa", payload, target_url=YITOS_URL)
                     data = json.loads(res)
                     if data.get("CodigoEstado") == 0:
                         for l in data.get("lineas", []):
@@ -175,7 +178,7 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                           <clave>{YITOS_CLAVE}</clave>
                           <codigoEntidad>{YITOS_COD_ENTIDAD}</codigoEntidad>
                         """
-                        res2 = call_autobuses_soap("RecuperarBanderasEnFuncionamiento", payload2)
+                        res2 = call_autobuses_soap("RecuperarBanderasEnFuncionamiento", payload2, target_url=YITOS_URL)
                         data2 = json.loads(res2)
                         if data2.get("CodigoEstado") == 0:
                             seen_lines = set()
@@ -214,7 +217,7 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                       <isSublinea>false</isSublinea>
                       <isInteligente>false</isInteligente>
                     """
-                    res = call_autobuses_soap("RecuperarParadasCompletoPorLinea", payload)
+                    res = call_autobuses_soap("RecuperarParadasCompletoPorLinea", payload, target_url=YITOS_URL)
                     data = json.loads(res)
                     
                     recorridos = []
@@ -278,10 +281,12 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                         real_linea_id = linea_id - YITOS_OFFSET
                         usuario = YITOS_USUARIO
                         clave = YITOS_CLAVE
+                        target_url = YITOS_URL
                     else:
                         real_linea_id = linea_id
                         usuario = AUTOBUSES_USUARIO
                         clave = AUTOBUSES_CLAVE
+                        target_url = AUTOBUSES_URL
                         
                     payload = f"""
                       <usuario>{usuario}</usuario>
@@ -290,7 +295,7 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                       <isSublinea>false</isSublinea>
                       <isInteligente>false</isInteligente>
                     """
-                    res = call_autobuses_soap("RecuperarParadasCompletoPorLinea", payload)
+                    res = call_autobuses_soap("RecuperarParadasCompletoPorLinea", payload, target_url=target_url)
                     data = json.loads(res)
                     
                     mapped_paradas = []
@@ -335,10 +340,12 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                         real_linea_id = linea_id - YITOS_OFFSET
                         usuario = YITOS_USUARIO
                         clave = YITOS_CLAVE
+                        target_url = YITOS_URL
                     else:
                         real_linea_id = linea_id
                         usuario = AUTOBUSES_USUARIO
                         clave = AUTOBUSES_CLAVE
+                        target_url = AUTOBUSES_URL
 
                     payload = f"""
                       <usuario>{usuario}</usuario>
@@ -350,7 +357,7 @@ class ProxyHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                       <isSublinea>false</isSublinea>
                       <isSoloAdaptados>false</isSoloAdaptados>
                     """
-                    res = call_autobuses_soap("RecuperarProximosArribos", payload)
+                    res = call_autobuses_soap("RecuperarProximosArribos", payload, target_url=target_url)
                     data = json.loads(res)
                     
                     mapped_predictions = []
