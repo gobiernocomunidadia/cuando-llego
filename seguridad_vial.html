@@ -2461,17 +2461,19 @@
                                 if (arrivalPolylines[interno]) {
                                     arrivalPolylines[interno].setPath(pathSegment);
                                 } else {
+                                    const arrowColor = (parseInt(lineaId) >= 10000) ? '#0055ff' : ((parseInt(lineaId) < 1000) ? '#19567C' : '#D34872');
+
                                     const arrowSymbol = {
                                         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
                                         scale: 2.5,
-                                        strokeColor: '#D34872',
-                                        fillColor: '#D34872',
+                                        strokeColor: arrowColor,
+                                        fillColor: arrowColor,
                                         fillOpacity: 1
                                     };
 
                                     arrivalPolylines[interno] = new google.maps.Polyline({
                                         path: pathSegment,
-                                        strokeColor: '#D34872',
+                                        strokeColor: arrowColor,
                                         strokeOpacity: 0.8,
                                         strokeWeight: 4,
                                         icons: [{
